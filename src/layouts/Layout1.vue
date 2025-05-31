@@ -1,8 +1,9 @@
 <template>
-  <div class="min-h-screen flex flex-col mx-auto max-w-md px-4 bg-white dark:bg-gray-900">
+  <div class="relative min-h-screen flex flex-col mx-auto max-w-md bg-white dark:bg-transparent">
+    <div class="absolute inset-0 bg-white dark:bg-black/60 pointer-events-none z-[1]"></div>
     <Navbar />
 
-    <main class="flex-1 my-4">
+    <main class="flex-1 my-4 px-4 relative z-10">
       <slot />
     </main>
 
