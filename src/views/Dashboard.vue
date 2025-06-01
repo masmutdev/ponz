@@ -1,4 +1,5 @@
 <template>
+  <!-- Info Card -->
   <div class="mt-1 relative rounded-lg overflow-hidden shadow-md w-full max-w-md">
     <div
       class="absolute inset-0 bg-[url('@/assets/1/wave.jpg')] bg-cover bg-center mix-blend-overlay opacity-40 z-11"
@@ -48,6 +49,130 @@
         </button>
       </div>
     </div>
+  </div>
+
+  <!-- Stacking Area -->
+  <div class="grid grid-cols-2 gap-4 items-center mt-5">
+    <!-- Kolom 1: Gambar -->
+    <div class="flex justify-center rounded-lg shadow-md">
+      <img
+        src="@/assets/1/ai-robot.png"
+        alt="AI Robot"
+        class="h-60 w-full object-cover rounded-lg shadow-md"
+      />
+    </div>
+
+    <!-- Kolom 2: Info Pendapatan -->
+    <div class="flex flex-col gap-4 h-60">
+      <!-- Card: Total Pendapatan -->
+      <div class="flex-1 rounded-lg bg-blue-500 dark:bg-indigo-500/30 p-4 shadow-md h-full">
+        <div class="flex flex-col justify-center items-center">
+          <img
+            src="@/assets/1/bitcoin.png"
+            alt="Bitcoin"
+            class="w-10 h-10 object-cover rounded-lg shadow-md"
+          />
+          <div class="flex flex-col justify-start items-start">
+            <p class="text-sm text-blue-200 font-semibold mt-1">Memulai Staking</p>
+            <button
+              class="w-full bg-white/50 text-white font-semibold py-1 mt-2 rounded-md hover:bg-blue-100 transition shadow-[0_4px_12px_rgba(0,0,0,0.3)]"
+            >
+              Mulai
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card: Total Profit -->
+      <div
+        class="relative flex-1 rounded-lg bg-blue-500 dark:bg-indigo-500/30 p-4 shadow-md h-full"
+      >
+        <!-- Gambar kecil di pojok kanan atas -->
+        <img
+          src="@/assets/1/stock-chart.png"
+          alt="Chart"
+          class="absolute top-2 right-2 h-10 w-10 object-contain opacity-50"
+        />
+        <p class="text-sm text-blue-200 font-semibold">Total Profit</p>
+        <p class="text-lg text-white font-bold">Rp. 7.500.000</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Coin Volume -->
+  <div class="overflow-x-auto mt-6">
+    <h2 class="text-xl font-semibold text-gray-800 dark:text-white mb-4">Market Volume 24 Jam</h2>
+    <table
+      class="min-w-full table-auto border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 rounded-lg overflow-hidden"
+    >
+      <thead class="bg-blue-500 dark:bg-indigo-600/30 text-white">
+        <tr>
+          <th class="px-6 py-3 text-center text-[10px] font-medium">
+            Name / 24h Transaction Volume
+          </th>
+          <th class="px-6 py-3 text-center text-[10px] font-medium">Latest Price</th>
+          <th class="px-6 py-3 text-center text-[10px] font-medium">Quote Change</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+        <tr class="hover:bg-gray-100 dark:hover:bg-gray-800">
+          <td class="px-6 py-4 text-[10px] text-gray-900 dark:text-white">
+            <div class="flex items-center gap-2">
+              <img src="@/assets/1/btc.png" alt="BTC" class="h-5 w-5" />
+              <div>
+                <div>Bitcoin (BTC)</div>
+                <div class="text-xs text-gray-500 dark:text-gray-400">$45.31B</div>
+              </div>
+            </div>
+          </td>
+          <td class="px-6 py-4 text-[10px] text-gray-700 text-center dark:text-gray-300">
+            $46,727.30
+          </td>
+          <td class="px-6 py-4 text-[10px] text-green-500 text-center font-semibold">+2.14%</td>
+        </tr>
+        <tr class="hover:bg-gray-100 dark:hover:bg-gray-800">
+          <td class="px-6 py-4 text-[10px] text-gray-900 dark:text-white">
+            <div class="flex items-center gap-2">
+              <img src="@/assets/1/eth.png" alt="ETH" class="h-5 w-5" />
+              <div>
+                <div>Ethereum (ETH)</div>
+                <div class="text-xs text-gray-500 dark:text-gray-400">$23.42B</div>
+              </div>
+            </div>
+          </td>
+          <td class="px-6 py-4 text-[10px] text-gray-700 text-center dark:text-gray-300">
+            $2,609.30
+          </td>
+          <td class="px-6 py-4 text-[10px] text-green-500 text-center font-semibold">+1.82%</td>
+        </tr>
+        <tr class="hover:bg-gray-100 dark:hover:bg-gray-800">
+          <td class="px-6 py-4 text-[10px] text-gray-900 dark:text-white">
+            <div class="flex items-center gap-2">
+              <img src="@/assets/1/sol.png" alt="SOL" class="h-5 w-5" />
+              <div>
+                <div>Solana (SOL)</div>
+                <div class="text-xs text-gray-500 dark:text-gray-400">$3.48B</div>
+              </div>
+            </div>
+          </td>
+          <td class="px-6 py-4 text-[10px] text-gray-700 text-center dark:text-gray-300">$22.11</td>
+          <td class="px-6 py-4 text-[10px] text-red-500 text-center font-semibold">-0.34%</td>
+        </tr>
+        <tr class="hover:bg-gray-100 dark:hover:bg-gray-800">
+          <td class="px-6 py-4 text-[10px] text-gray-900 dark:text-white">
+            <div class="flex items-center gap-2">
+              <img src="@/assets/1/doge.png" alt="DOGE" class="h-5 w-5" />
+              <div>
+                <div>Dogecoin (DOGE)</div>
+                <div class="text-xs text-gray-500 dark:text-gray-400">$1.81B</div>
+              </div>
+            </div>
+          </td>
+          <td class="px-6 py-4 text-[10px] text-gray-700 text-center dark:text-gray-300">$0.22</td>
+          <td class="px-6 py-4 text-[10px] text-green-500 text-center font-semibold">+0.95%</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 
