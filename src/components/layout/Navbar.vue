@@ -6,27 +6,43 @@
       'dark:bg-blue-800/10',
     ]"
   >
-    <!-- Kiri -->
     <div class="flex items-center gap-2">
-      <img :src="logo" alt="Logo" class="h-6 w-6" />
-      <div class="flex items-center gap-1">
-        <span
+      <template v-if="isRoot">
+        <img :src="logo" alt="Logo" class="h-6 w-6" />
+        <div class="flex items-center gap-1">
+          <span
+            :class="[
+              'font-bold transition-colors duration-300',
+              isScrolled
+                ? 'text-white dark:text-yellow-500'
+                : 'text-yellow-500 dark:text-yellow-500',
+            ]"
+          >
+            WALLET
+          </span>
+          <span
+            :class="[
+              'font-bold transition-colors duration-300',
+              isScrolled ? 'text-blue-950 dark:text-white' : 'text-blue-950 dark:text-white',
+            ]"
+          >
+            PAY
+          </span>
+        </div>
+      </template>
+
+      <template v-else>
+        <button
+          @click="goBack"
           :class="[
-            'font-bold transition-colors duration-300',
-            isScrolled ? 'text-white dark:text-yellow-500' : 'text-yellow-500 dark:text-yellow-500',
+            'flex items-center gap-1 font-bold hover:underline transition-colors duration-300',
+            isScrolled ? 'text-white dark:text-yellow-500' : 'text-blue-900 dark:text-yellow-500',
           ]"
         >
-          WALLET
-        </span>
-        <span
-          :class="[
-            'font-bold transition-colors duration-300',
-            isScrolled ? 'text-blue-950 dark:text-white' : 'text-blue-950 dark:text-white',
-          ]"
-        >
-          PAY
-        </span>
-      </div>
+          <IconArrowLeft class="w-7 h-6" />
+          <span>Kembali</span>
+        </button>
+      </template>
     </div>
 
     <!-- Kanan -->
@@ -38,11 +54,24 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted, computed } from 'vue'
 import logo from '@/assets/1/logo.png'
-import Profil from '@/components/ui/Profil.vue'
-import Notifikasi from '@/components/ui/Notifikasi.vue'
+import Profil from '@/components/ui/walletpay/Profil.vue'
+import Notifikasi from '@/components/ui/walletpay/Notifikasi.vue'
+import { useRoute, useRouter } from 'vue-router'
+import { IconArrowLeft } from '@tabler/icons-vue'
 
+const route = useRoute()
+const router = useRouter()
+
+const isRoot = computed(() => route.path === '/')
+const goBack = () => {
+  if (window.history.length <= 1) {
+    router.push('/')
+  } else {
+    router.back()
+  }
+}
 const isScrolled = ref(false)
 
 const handleScroll = () => {

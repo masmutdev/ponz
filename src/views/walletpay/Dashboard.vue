@@ -17,7 +17,9 @@
         </div>
       </div>
       <div class="flex justify-start items-center">
-        <img :src="qr" alt="QR" class="h-6 w-6 dark:invert invert-0" />
+        <router-link to="/undangan">
+          <img :src="qr" alt="QR" class="h-6 w-6 dark:invert invert-0 cursor-pointer" />
+        </router-link>
       </div>
     </div>
     <div class="relative z-20 py-2 text-white">
@@ -37,16 +39,18 @@
 
       <!-- Tombol aksi -->
       <div class="flex justify-between gap-4 px-4">
-        <button
-          class="flex-1 bg-white/50 text-blue-950 font-semibold py-2 rounded-md hover:bg-blue-100 transition shadow-[0_4px_12px_rgba(0,0,0,0.3)]"
+        <router-link
+          to="/deposit"
+          class="flex-1 text-center bg-white/50 text-blue-950 font-semibold py-2 rounded-md hover:bg-blue-100 transition shadow-[0_4px_12px_rgba(0,0,0,0.3)]"
         >
           Deposit
-        </button>
-        <button
-          class="flex-1 bg-white/50 text-blue-950 font-semibold py-2 rounded-md hover:bg-blue-100 transition shadow-[0_4px_12px_rgba(0,0,0,0.3)]"
+        </router-link>
+        <router-link
+          to="/withdraw"
+          class="flex-1 text-center bg-white/50 text-blue-950 font-semibold py-2 rounded-md hover:bg-blue-100 transition shadow-[0_4px_12px_rgba(0,0,0,0.3)]"
         >
           Withdraw
-        </button>
+        </router-link>
       </div>
     </div>
   </div>
@@ -65,20 +69,28 @@
     <!-- Kolom 2: Info Pendapatan -->
     <div class="flex flex-col gap-4 h-60">
       <!-- Card: Total Pendapatan -->
-      <div class="flex-1 rounded-lg bg-blue-500 dark:bg-indigo-500/30 p-4 shadow-md h-full">
-        <div class="flex flex-col justify-center items-center">
+      <div
+        class="flex-1 rounded-lg bg-blue-500 dark:bg-indigo-500/30 p-4 shadow-md h-full bg-cover bg-center relative"
+        :style="{ backgroundImage: `url(${serverBg})` }"
+      >
+        <!-- Overlay gelap + blur -->
+        <div class="absolute inset-0 bg-black/30 backdrop-blur-[2px] rounded-lg z-0"></div>
+
+        <div class="flex flex-col justify-center items-center relative z-2">
           <img
             src="@/assets/1/bitcoin.png"
             alt="Bitcoin"
             class="w-10 h-10 object-cover rounded-lg shadow-md"
           />
-          <div class="flex flex-col justify-start items-start">
+          <div class="flex flex-col justify-center items-center">
             <p class="text-sm text-blue-200 font-semibold mt-1">Memulai Staking</p>
-            <button
-              class="w-full bg-white/50 text-white font-semibold py-1 mt-2 rounded-md hover:bg-blue-100 transition shadow-[0_4px_12px_rgba(0,0,0,0.3)]"
-            >
-              Mulai
-            </button>
+            <router-link to="/crypto">
+              <button
+                class="w-full bg-indigo-500/50 text-white font-semibold py-1 px-4 mt-2 rounded-md hover:bg-blue-100 hover:text-indigo-800 transition shadow-[0_4px_12px_rgba(0,0,0,0.3)]"
+              >
+                Mulai
+              </button>
+            </router-link>
           </div>
         </div>
       </div>
@@ -171,6 +183,8 @@
 </template>
 
 <script setup>
+import serverBg from '@/assets/1/server-room.png'
+
 import logo from '@/assets/1/logo.png'
 import qr from '@/assets/1/qr-code.png'
 </script>

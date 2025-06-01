@@ -13,9 +13,22 @@
       ref="dropdownRef"
       class="absolute top-10 right-0 bg-white dark:bg-gray-800 border rounded shadow-lg p-4 w-52 z-50 space-y-3 text-black dark:text-white"
     >
-      <div class="font-medium">Akun Saya</div>
-      <SwitchBahasa />
+      <router-link
+        to="/pengaturan"
+        class="text-sm font-medium hover:underline block"
+        @click="dropdownOpen = false"
+      >
+        Akun Saya
+      </router-link>
       <DarkMode />
+      <div class="border-t pt-3">
+        <button
+          class="text-sm font-bold text-red-500 dark:text-red-500 hover:underline"
+          @click="handleLogout"
+        >
+          Logout
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -23,12 +36,19 @@
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from 'vue'
 import user from '@/assets/1/user.png'
-import SwitchBahasa from '@/components/ui/SwitchBahasa.vue'
-import DarkMode from '@/components/ui/DarkMode.vue'
+import DarkMode from '@/components/ui/walletpay/DarkMode.vue'
+import { useRouter } from 'vue-router'
+const router = useRouter()
 
 const dropdownOpen = ref(false)
 const dropdownRef = ref(null)
 const userIconRef = ref(null)
+
+const handleLogout = () => {
+  dropdownOpen.value = false
+  // logika logout di sini, contoh redirect ke halaman login
+  router.push('/login')
+}
 
 const toggleDropdown = () => {
   dropdownOpen.value = !dropdownOpen.value
