@@ -107,16 +107,14 @@
     >
       <thead class="bg-blue-500 dark:bg-indigo-600/30 text-white">
         <tr>
-          <th class="px-6 py-3 text-center text-[10px] font-medium">
-            Name / 24h Transaction Volume
-          </th>
-          <th class="px-6 py-3 text-center text-[10px] font-medium">Latest Price</th>
-          <th class="px-6 py-3 text-center text-[10px] font-medium">Quote Change</th>
+          <th class="px-6 py-3 text-center text-sm font-medium">Name / 24h Transaction Volume</th>
+          <th class="px-6 py-3 text-center text-sm font-medium">Latest Price</th>
+          <th class="px-6 py-3 text-center text-sm font-medium">Quote Change</th>
         </tr>
       </thead>
       <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
         <tr class="hover:bg-gray-100 dark:hover:bg-gray-800">
-          <td class="px-6 py-4 text-[10px] text-gray-900 dark:text-white">
+          <td class="px-6 py-4 text-sm text-gray-900 dark:text-white">
             <div class="flex items-center gap-2">
               <img src="@/assets/1/btc.png" alt="BTC" class="h-5 w-5" />
               <div>
@@ -125,51 +123,47 @@
               </div>
             </div>
           </td>
-          <td class="px-6 py-4 text-[10px] text-gray-700 text-center dark:text-gray-300">
-            $46,727.30
-          </td>
-          <td class="px-6 py-4 text-[10px] text-green-500 text-center font-semibold">+2.14%</td>
+          <td class="px-6 py-4 text-sm text-gray-700 text-center dark:text-gray-300">$46,727.30</td>
+          <td class="px-6 py-4 text-sm text-green-500 text-center font-semibold">+2.14%</td>
         </tr>
         <tr class="hover:bg-gray-100 dark:hover:bg-gray-800">
-          <td class="px-6 py-4 text-[10px] text-gray-900 dark:text-white">
+          <td class="px-6 py-4 text-sm text-gray-900 dark:text-white">
             <div class="flex items-center gap-2">
-              <img src="@/assets/1/eth.png" alt="ETH" class="h-5 w-5" />
+              <img src="@/assets/1/eth.png" alt="ETH" class="h-5 w-5 rounded-full" />
               <div>
                 <div>Ethereum (ETH)</div>
                 <div class="text-xs text-gray-500 dark:text-gray-400">$23.42B</div>
               </div>
             </div>
           </td>
-          <td class="px-6 py-4 text-[10px] text-gray-700 text-center dark:text-gray-300">
-            $2,609.30
-          </td>
-          <td class="px-6 py-4 text-[10px] text-green-500 text-center font-semibold">+1.82%</td>
+          <td class="px-6 py-4 text-sm text-gray-700 text-center dark:text-gray-300">$2,609.30</td>
+          <td class="px-6 py-4 text-sm text-green-500 text-center font-semibold">+1.82%</td>
         </tr>
         <tr class="hover:bg-gray-100 dark:hover:bg-gray-800">
-          <td class="px-6 py-4 text-[10px] text-gray-900 dark:text-white">
+          <td class="px-6 py-4 text-sm text-gray-900 dark:text-white">
             <div class="flex items-center gap-2">
-              <img src="@/assets/1/sol.png" alt="SOL" class="h-5 w-5" />
+              <img src="@/assets/1/sol.png" alt="SOL" class="h-5 w-5 rounded-full" />
               <div>
                 <div>Solana (SOL)</div>
                 <div class="text-xs text-gray-500 dark:text-gray-400">$3.48B</div>
               </div>
             </div>
           </td>
-          <td class="px-6 py-4 text-[10px] text-gray-700 text-center dark:text-gray-300">$22.11</td>
-          <td class="px-6 py-4 text-[10px] text-red-500 text-center font-semibold">-0.34%</td>
+          <td class="px-6 py-4 text-sm text-gray-700 text-center dark:text-gray-300">$22.11</td>
+          <td class="px-6 py-4 text-sm text-red-500 text-center font-semibold">-0.34%</td>
         </tr>
         <tr class="hover:bg-gray-100 dark:hover:bg-gray-800">
-          <td class="px-6 py-4 text-[10px] text-gray-900 dark:text-white">
+          <td class="px-6 py-4 text-sm text-gray-900 dark:text-white">
             <div class="flex items-center gap-2">
-              <img src="@/assets/1/doge.png" alt="DOGE" class="h-5 w-5" />
+              <img src="@/assets/1/doge.png" alt="DOGE" class="h-5 w-5 rounded-full" />
               <div>
                 <div>Dogecoin (DOGE)</div>
                 <div class="text-xs text-gray-500 dark:text-gray-400">$1.81B</div>
               </div>
             </div>
           </td>
-          <td class="px-6 py-4 text-[10px] text-gray-700 text-center dark:text-gray-300">$0.22</td>
-          <td class="px-6 py-4 text-[10px] text-green-500 text-center font-semibold">+0.95%</td>
+          <td class="px-6 py-4 text-sm text-gray-700 text-center dark:text-gray-300">$0.22</td>
+          <td class="px-6 py-4 text-sm text-green-500 text-center font-semibold">+0.95%</td>
         </tr>
       </tbody>
     </table>
