@@ -1,7 +1,13 @@
 name = "frontend-ponz"
-compatibility_date = "2025-06-07"
-
 main = "index.js"
+compatibility_date = "2025-06-07"
 
 [site]
 bucket = "./dist"
+
+[build]
+upload.format = "modules"
+
+[[bindings]]
+type = "kv_namespace"
+name = "ASSETS"
