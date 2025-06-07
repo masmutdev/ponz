@@ -1,6 +1,0 @@
-name = "frontend-ponz"
-main = "index.js"
-compatibility_date = "2025-06-07"
-
-[assets]
-directory = "./dist"

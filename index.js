@@ -1,18 +1,15 @@
-import { getAssetFromKV } from '@cloudflare/kv-asset-handler'
+// index.js
 
 export default {
-  async fetch(request, env, ctx) {
-    try {
-      return await getAssetFromKV(request)
-    } catch (e) {
-      const url = new URL(request.url)
+  async fetch(request, env) {
+    const url = new URL(request.url)
 
-      // fallback ke index.html untuk SPA Vue
-      if (!url.pathname.match(/\.\w+$/)) {
-        return await getAssetFromKV(new Request(`${url.origin}/index.html`, request))
-      }
-
-      return new Response('Not Found', { status: 404 })
+    if (url.pathname.startsWith('/api/')) {
+      return new Response(JSON.stringify({ name: 'Cloudflare' }), {
+        headers: { 'Content-Type': 'application/json' },
+      })
     }
+
+    return env.ASSETS.fetch(request)
   },
 }
