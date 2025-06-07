@@ -9,5 +9,5 @@ bucket = "./dist"
 upload.format = "modules"
 
 [[bindings]]
-type = "kv_namespace"
+type = "site"
 name = "ASSETS"
