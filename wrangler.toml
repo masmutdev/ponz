@@ -2,12 +2,5 @@ name = "frontend-ponz"
 main = "index.js"
 compatibility_date = "2025-06-07"
 
-[build]
-upload.format = "modules"
-
-[site]
+[assets]
 bucket = "./dist"
-
-[[services]]
-binding = "ASSETS"
-type = "site"
