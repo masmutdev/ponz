@@ -1,0 +1,7 @@
+name = "frontend-ponz"
+compatibility_date = "2025-06-07"
+
+main = "index.js"
+
+[site]
+bucket = "./dist"
