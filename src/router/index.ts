@@ -17,6 +17,8 @@ import RiwayatBonus from '@/views/walletpay/RiwayatBonus.vue'
 import TentangKami from '@/views/walletpay/TentangKami.vue'
 import FAQ from '@/views/walletpay/FAQ.vue'
 import Kebijakan from '@/views/walletpay/Kebijakan.vue'
+import Downline from '@/views/walletpay/Downline.vue'
+import ActiveDownline from '@/views/walletpay/ActiveDownline.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -131,6 +133,18 @@ const router = createRouter({
       path: '/syarat-dan-kebijakan',
       name: 'syarat-dan-kebijakan',
       component: Kebijakan,
+      meta: { requiresAuth: true },
+    },
+    {
+      path: '/downline',
+      name: 'downline',
+      component: Downline,
+      meta: { requiresAuth: true },
+    },
+    {
+      path: '/active-downline',
+      name: 'active-downline',
+      component: ActiveDownline,
       meta: { requiresAuth: true },
     },
     {

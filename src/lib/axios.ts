@@ -24,8 +24,6 @@ api.interceptors.response.use(
 
     if (status === 401) {
       localStorage.removeItem('token')
-      window.location.href =
-        '/login?message=' + encodeURIComponent('Sesi Habis, Silahkan Login Ulang')
     }
 
     return Promise.reject(error)
