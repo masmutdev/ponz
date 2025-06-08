@@ -1,5 +1,6 @@
 <template>
   <div class="min-h-screen flex flex-col items-center justify-center bg-transparent px-4">
+    <img src="@/assets/1/auth-logo.png" alt="Auth Logo" class="w-90 mb-6" />
     <form
       @submit.prevent="login"
       class="bg-black/50 shadow-md rounded-lg p-8 w-full max-w-sm space-y-4"
@@ -42,10 +43,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { ref, onMounted } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 import api from '@/lib/axios'
 import Alerts from '@/components/ui/walletpay/Alerts.vue'
+
+const route = useRoute()
 
 const showAlert = ref(false)
 const alertMessage = ref('')
@@ -67,4 +70,10 @@ const login = async () => {
     showError(err.response?.data?.message || 'Login gagal')
   }
 }
+
+onMounted(() => {
+  if (route.query.message) {
+    showError(route.query.message as string)
+  }
+})
 </script>

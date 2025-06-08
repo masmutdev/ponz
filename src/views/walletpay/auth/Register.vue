@@ -1,8 +1,9 @@
 <template>
   <div class="min-h-screen flex flex-col items-center justify-center bg-transparent px-4">
+    <img src="@/assets/1/auth-logo.png" alt="Auth Logo" class="w-70 mb-6 my-4" />
     <form
       @submit.prevent="register"
-      class="bg-black/50 shadow-md rounded-lg p-8 w-full max-w-sm space-y-4 my-4"
+      class="bg-black/50 shadow-md rounded-lg p-8 w-full max-w-sm space-y-4"
     >
       <h2 class="text-xl font-semibold text-center text-gray-100">Register</h2>
 
@@ -98,7 +99,10 @@ const register = async () => {
       hp: hp.value,
       password: password.value,
     })
-    router.push('/login')
+    router.push({
+      path: '/login',
+      query: { message: 'Register berhasil, silakan login' },
+    })
   } catch (err: any) {
     showError(err.response?.data?.message || 'Register gagal')
   }

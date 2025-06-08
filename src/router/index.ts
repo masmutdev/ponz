@@ -98,20 +98,27 @@ const router = createRouter({
       component: RiwayatTransaksi,
       meta: { requiresAuth: true },
     },
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'not-found',
+      component: () => import('@/views/NotFound.vue'), // atau ganti path sesuai file kamu
+    },
   ],
 })
 
 router.beforeEach((to, from, next) => {
   const token = localStorage.getItem('token')
 
-  // Redirect ke login kalau belum login dan butuh auth
   if (to.meta.requiresAuth && !token) {
-    return next({ path: '/login', replace: true }) // <--- pakai replace
+    return next({
+      path: '/login',
+      query: { message: 'Silahkan Login Dulu' },
+      replace: true,
+    })
   }
 
-  // Redirect ke dashboard kalau udah login dan buka login/register
   if ((to.path === '/login' || to.path === '/register') && token) {
-    return next({ path: '/', replace: true }) // <--- pakai replace juga
+    return next({ path: '/', replace: true })
   }
 
   next()

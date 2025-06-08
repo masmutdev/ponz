@@ -1,4 +1,4 @@
-import { initDarkMode } from './store/darkmode'
+import { initDarkMode } from '@/stores/darkmode'
 initDarkMode()
 
 import './assets/main.css'

@@ -25,12 +25,18 @@
     <div class="relative z-20 py-2 text-white">
       <div class="flex flex-row justify-between items-center px-4">
         <div class="flex flex-col justify-start items-start">
-          <h2 class="text-sm text-blue-950 dark:text-white font-semibold">Admin WalletPay</h2>
-          <h2 class="text-sm text-blue-950 dark:text-white font-semibold">081234567890</h2>
+          <h2 class="text-sm text-blue-950 dark:text-white font-semibold">
+            {{ dashboard.user?.nama }}
+          </h2>
+          <h2 class="text-sm text-blue-950 dark:text-white font-semibold">
+            {{ dashboard.user?.hp }}
+          </h2>
         </div>
         <div class="flex flex-col justify-start items-start">
           <h2 class="text-sm text-blue-950 dark:text-white font-semibold">SALDO</h2>
-          <h2 class="text-sm text-blue-950 dark:text-white font-semibold">Rp. 10.000.000</h2>
+          <h2 class="text-sm text-blue-950 dark:text-white font-semibold">
+            {{ dashboard.saldoUSD }}
+          </h2>
         </div>
       </div>
 
@@ -106,7 +112,7 @@
           class="absolute top-2 right-2 h-10 w-10 object-contain opacity-50"
         />
         <p class="text-sm text-blue-200 font-semibold">Total Profit</p>
-        <p class="text-lg text-white font-bold">Rp. 7.500.000</p>
+        <p class="text-lg text-white font-bold">{{ dashboard.bonusProfitUSD }}</p>
       </div>
     </div>
   </div>
@@ -184,7 +190,14 @@
 
 <script setup>
 import serverBg from '@/assets/1/server-room.png'
-
 import logo from '@/assets/1/logo.png'
 import qr from '@/assets/1/qr-code.png'
+import { onMounted } from 'vue'
+import { useUserDashboard } from '@/stores/userDashboard'
+
+const dashboard = useUserDashboard()
+
+onMounted(() => {
+  dashboard.fetchUserDashboard()
+})
 </script>
