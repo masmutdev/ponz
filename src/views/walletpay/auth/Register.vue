@@ -35,6 +35,11 @@
         placeholder="Ulangi Password"
         class="w-full px-0 py-2 border-0 border-b border-white bg-transparent text-white placeholder-white focus:outline-none focus:ring-0 focus:border-blue-500"
       />
+      <input
+        v-model="uplineReff"
+        placeholder="Kode Referral"
+        class="w-full px-0 py-2 border-0 border-b border-white bg-transparent text-white placeholder-white focus:outline-none focus:ring-0 focus:border-blue-500"
+      />
 
       <button
         type="submit"
@@ -62,8 +67,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { ref, onMounted } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 import api from '@/lib/axios'
 import Alerts from '@/components/ui/walletpay/Alerts.vue'
 
@@ -74,9 +79,19 @@ const email = ref('')
 const hp = ref('')
 const password = ref('')
 const retype = ref('')
+const uplineReff = ref('')
 
 const showAlert = ref(false)
 const alertMessage = ref('')
+
+const route = useRoute()
+
+onMounted(() => {
+  const kodeReff = route.query.reff as string
+  if (kodeReff) {
+    uplineReff.value = kodeReff
+  }
+})
 
 const showError = (msg: string) => {
   alertMessage.value = msg
@@ -92,12 +107,18 @@ const register = async () => {
     return showError('Password tidak cocok')
   }
 
+  const hpPattern = /^(628|08)\d{9,11}$/
+  if (!hpPattern.test(hp.value)) {
+    return showError('Nomor HP tidak valid')
+  }
+
   try {
     await api.post('/register/user', {
       nama: nama.value,
       email: email.value,
       hp: hp.value,
       password: password.value,
+      upline_reff: uplineReff.value,
     })
     router.push({
       path: '/login',

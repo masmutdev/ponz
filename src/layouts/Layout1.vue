@@ -14,4 +14,13 @@
 <script setup>
 import Navbar from '@/components/layout/Navbar.vue'
 import Footer from '@/components/layout/Footer.vue'
+
+import { onMounted } from 'vue'
+import { userNotifikasi } from '@/stores/userNotifikasi'
+
+const notifikasiStore = userNotifikasi()
+
+onMounted(() => {
+  notifikasiStore.fetchNotifikasi()
+})
 </script>

@@ -35,18 +35,22 @@
 
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from 'vue'
+import { useRouter } from 'vue-router'
+import { useUserLogout } from '@/stores/userLogout'
+
 import user from '@/assets/1/user.png'
 import DarkMode from '@/components/ui/walletpay/DarkMode.vue'
-import { useRouter } from 'vue-router'
+
 const router = useRouter()
+const logoutStore = useUserLogout()
 
 const dropdownOpen = ref(false)
 const dropdownRef = ref(null)
 const userIconRef = ref(null)
 
-const handleLogout = () => {
+const handleLogout = async () => {
   dropdownOpen.value = false
-  // logika logout di sini, contoh redirect ke halaman login
+  await logoutStore.logout()
   router.push('/login')
 }
 
