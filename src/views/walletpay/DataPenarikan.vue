@@ -15,9 +15,9 @@
     </div>
 
     <div class="space-y-2">
-      <label class="block text-sm font-medium text-gray-700 dark:text-gray-300"
-        >Nama Pemilik Rekening</label
-      >
+      <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+        Nama Pemilik Rekening
+      </label>
       <input
         type="text"
         v-model="pemilik"
@@ -27,9 +27,9 @@
     </div>
 
     <div class="space-y-2">
-      <label class="block text-sm font-medium text-gray-700 dark:text-gray-300"
-        >Nomor Rekening</label
-      >
+      <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+        Nomor Rekening
+      </label>
       <input
         type="text"
         v-model="rekening"
@@ -44,23 +44,58 @@
     >
       Simpan Perubahan
     </button>
+
+    <Alerts
+      :message="alertMessage"
+      :show="showAlert"
+      :type="alertType"
+      @close="showAlert = false"
+    />
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import { useUserDataRekening } from '@/stores/userDataRekening'
+import { useUserUpdateRekening } from '@/stores/userUpdateRekening'
+import Alerts from '@/components/ui/walletpay/Alerts.vue'
+
+const rekeningStore = useUserDataRekening()
+const updateStore = useUserUpdateRekening()
 
 const bank = ref('')
 const pemilik = ref('')
 const rekening = ref('')
 
-const simpan = () => {
-  console.log('Data disimpan:', {
+const alertMessage = ref('')
+const alertType = ref('success')
+const showAlert = ref(false)
+
+const showInfo = (msg, type = 'success') => {
+  alertMessage.value = msg
+  alertType.value = type
+  showAlert.value = true
+}
+
+onMounted(async () => {
+  await rekeningStore.fetchRekening()
+
+  bank.value = rekeningStore.data.bank
+  pemilik.value = rekeningStore.data.pemilik
+  rekening.value = rekeningStore.data.norek
+})
+
+const simpan = async () => {
+  await updateStore.updateRekening({
     bank: bank.value,
     pemilik: pemilik.value,
-    rekening: rekening.value,
+    norek: rekening.value,
   })
 
-  // Bisa lanjutkan ke API PUT / PATCH ke backend
+  if (updateStore.error) {
+    showInfo(updateStore.error, 'error')
+  } else {
+    showInfo(updateStore.success)
+  }
 }
 </script>

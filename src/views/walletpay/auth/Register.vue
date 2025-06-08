@@ -48,7 +48,12 @@
         Register
       </button>
 
-      <Alerts :message="alertMessage" :show="showAlert" @close="showAlert = false" />
+      <Alerts
+        :message="alertMessage"
+        :show="showAlert"
+        :type="alertType"
+        @close="showAlert = false"
+      />
     </form>
 
     <div class="bg-black/50 shadow-md rounded-lg p-8 w-full max-w-sm space-y-4 mt-4">
@@ -73,6 +78,7 @@ import api from '@/lib/axios'
 import Alerts from '@/components/ui/walletpay/Alerts.vue'
 
 const router = useRouter()
+const route = useRoute()
 
 const nama = ref('')
 const email = ref('')
@@ -83,33 +89,31 @@ const uplineReff = ref('')
 
 const showAlert = ref(false)
 const alertMessage = ref('')
-
-const route = useRoute()
+const alertType = ref<'success' | 'error'>('error')
 
 onMounted(() => {
   const kodeReff = route.query.reff as string
-  if (kodeReff) {
-    uplineReff.value = kodeReff
-  }
+  if (kodeReff) uplineReff.value = kodeReff
 })
 
-const showError = (msg: string) => {
+const showNotif = (msg: string, type: 'success' | 'error' = 'error') => {
   alertMessage.value = msg
+  alertType.value = type
   showAlert.value = true
 }
 
 const register = async () => {
   if (!nama.value || !email.value || !hp.value || !password.value || !retype.value) {
-    return showError('Semua field wajib diisi')
+    return showNotif('Semua field wajib diisi')
   }
 
   if (password.value !== retype.value) {
-    return showError('Password tidak cocok')
+    return showNotif('Password tidak cocok')
   }
 
   const hpPattern = /^(628|08)\d{9,11}$/
   if (!hpPattern.test(hp.value)) {
-    return showError('Nomor HP tidak valid')
+    return showNotif('Nomor HP tidak valid')
   }
 
   try {
@@ -120,12 +124,19 @@ const register = async () => {
       password: password.value,
       upline_reff: uplineReff.value,
     })
-    router.push({
-      path: '/login',
-      query: { message: 'Register berhasil, silakan login' },
-    })
+
+    showNotif('Register berhasil, silakan login', 'success')
+    setTimeout(() => {
+      router.push({ path: '/login' })
+    }, 1000)
   } catch (err: any) {
-    showError(err.response?.data?.message || 'Register gagal')
+    const apiMsg = err.response?.data?.error || err.response?.data?.message || 'Register gagal'
+
+    if (apiMsg.includes('upline reff')) {
+      showNotif('Kode Referral tidak boleh kosong')
+    } else {
+      showNotif(apiMsg, 'error')
+    }
   }
 }
 </script>

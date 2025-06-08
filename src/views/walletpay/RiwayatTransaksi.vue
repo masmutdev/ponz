@@ -28,6 +28,10 @@
 
     <!-- Card Deposit -->
     <div v-if="tab === 'deposit'" class="space-y-3">
+      <div v-if="dataDeposit.length === 0" class="text-center text-gray-500">
+        Belum ada Data Deposit.
+      </div>
+
       <div
         v-for="item in dataDeposit"
         :key="item.id"
@@ -37,18 +41,28 @@
           <p class="font-semibold text-blue-800 dark:text-blue-400">Transaksi Deposit</p>
           <p class="font-semibold text-blue-800 dark:text-blue-400">Rp. {{ item.nominal }}</p>
         </div>
+
         <p class="text-xs text-gray-600 dark:text-gray-300 text-center">
           {{ item.created_at }}
         </p>
 
-        <p class="text-gray-500 dark:text-gray-400 text-center">{{ getKeterangan(item.status) }}</p>
+        <p class="text-gray-500 dark:text-gray-400 text-center">
+          Invoice: {{ item.invoice }} | Order ID: {{ item.order_id }}
+        </p>
+        <p class="text-gray-500 dark:text-gray-400 text-center">
+          {{ item.bank }} - {{ item.norek }}
+        </p>
+
+        <p class="text-gray-500 dark:text-gray-400 text-center">
+          {{ getKeterangan(statusLabel(item.status), false) }}
+        </p>
 
         <div class="flex justify-center">
           <span
             class="px-3 py-1 rounded-full text-xs font-medium"
-            :class="getStatusClass(item.status)"
+            :class="getStatusClass(statusLabel(item.status))"
           >
-            {{ item.status }}
+            {{ statusLabel(item.status) }}
           </span>
         </div>
       </div>
@@ -56,7 +70,12 @@
 
     <!-- Card Withdraw -->
     <div v-else class="space-y-3">
+      <div v-if="dataWithdraw.length === 0" class="text-center text-gray-500">
+        Belum ada Data Withdraw.
+      </div>
+
       <div
+        v-else
         v-for="item in dataWithdraw"
         :key="item.id"
         class="p-4 rounded-lg shadow bg-white dark:bg-gray-800 text-sm space-y-2"
@@ -68,14 +87,12 @@
         <p class="text-xs text-gray-600 dark:text-gray-300 text-center">
           {{ item.created_at }}
         </p>
-
         <p class="text-gray-500 dark:text-gray-400 text-center">
           {{ item.bank }} - {{ item.pemilik }} ({{ item.rekening }})
         </p>
         <p class="text-gray-500 dark:text-gray-400 text-center">
-          {{ getKeterangan(item.status, true) }}
+          {{ getKeterangan(statusLabel(item.status), tab === 'withdraw') }}
         </p>
-
         <div class="flex justify-center">
           <span
             class="px-3 py-1 rounded-full text-xs font-medium"
@@ -88,36 +105,72 @@
     </div>
   </div>
 </template>
+
 <script setup>
-import { ref } from 'vue'
+import { ref, watch, onMounted, computed } from 'vue'
+import { useUserRiwayatDeposit } from '@/stores/userRiwayatDeposit'
+import { useUserRiwayatWithdraw } from '@/stores/userRiwayatWithdraw'
 
 const tab = ref('deposit')
 
-const dataDeposit = [
-  { id: 1, nominal: 300000, created_at: '2025-05-30 14:00', status: 'Lunas' },
-  { id: 2, nominal: 150000, created_at: '2025-05-28 10:30', status: 'Pending' },
-]
+const depositStore = useUserRiwayatDeposit()
+const withdrawStore = useUserRiwayatWithdraw()
 
-const dataWithdraw = [
-  {
-    id: 1,
-    nominal: 250000,
-    created_at: '2025-05-27 09:00',
-    bank: 'BCA',
-    pemilik: 'Andi Saputra',
-    rekening: '1234567890',
-    status: 'Lunas',
-  },
-  {
-    id: 2,
-    nominal: 100000,
-    created_at: '2025-05-26 16:20',
-    bank: 'Mandiri',
-    pemilik: 'Budi Santoso',
-    rekening: '9876543210',
-    status: 'Pending',
-  },
-]
+const dataDeposit = computed(() =>
+  depositStore.data.map((item, index) => ({
+    id: index + 1,
+    nominal: item.jumlah,
+    created_at: item.created_at,
+    status: Number(item.status),
+    invoice: item.invoice,
+    order_id: item.order_id,
+    bank: item.bank || '-',
+    norek: item.norek || '-',
+  })),
+)
+
+const dataWithdraw = computed(() =>
+  withdrawStore.data.map((item, index) => ({
+    id: index + 1,
+    nominal: item.jumlah_withdraw,
+    created_at: item.created_at,
+    status: Number(item.status),
+    bank: item.bank || '-',
+    pemilik: item.pemilik || '-',
+    rekening: item.rekening || '-',
+  })),
+)
+
+const fetchTabData = async (currentTab) => {
+  if (currentTab === 'deposit' && depositStore.data.length === 0) {
+    await depositStore.fetchRiwayatDeposit()
+  } else if (currentTab === 'withdraw' && withdrawStore.data.length === 0) {
+    await withdrawStore.fetchRiwayatWithdraw()
+  }
+}
+
+onMounted(() => {
+  fetchTabData(tab.value)
+})
+
+watch(tab, (val) => {
+  fetchTabData(val)
+})
+
+const statusLabel = (status) => {
+  switch (status) {
+    case 1:
+      return 'Lunas'
+    case 0:
+      return 'Pending'
+    case 2:
+      return 'Failed'
+    case 3:
+      return 'Expired'
+    default:
+      return '-'
+  }
+}
 
 const getKeterangan = (status, isWithdraw = false) => {
   if (status === 'Lunas') return isWithdraw ? 'Withdraw Berhasil' : 'Pembayaran Berhasil'

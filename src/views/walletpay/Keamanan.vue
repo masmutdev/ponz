@@ -44,27 +44,52 @@
     >
       Simpan Password Baru
     </button>
+    <Alerts
+      :message="alertMessage"
+      :show="showAlert"
+      :type="alertType"
+      @close="showAlert = false"
+    />
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
+import { useUserUpdatePassword } from '@/stores/userUpdatePassword'
+import Alerts from '@/components/ui/walletpay/Alerts.vue'
 
 const oldPassword = ref('')
 const newPassword = ref('')
 const confirmPassword = ref('')
 
-const gantiPassword = () => {
+const passwordStore = useUserUpdatePassword()
+
+const showAlert = ref(false)
+const alertMessage = ref('')
+const alertType = ref('success')
+
+const showNotif = (msg, type = 'success') => {
+  alertMessage.value = msg
+  alertType.value = type
+  showAlert.value = true
+}
+
+const gantiPassword = async () => {
   if (newPassword.value !== confirmPassword.value) {
-    alert('Konfirmasi password tidak cocok')
+    showNotif('Konfirmasi password tidak cocok', 'error')
     return
   }
 
-  console.log('Ganti password:', {
-    oldPassword: oldPassword.value,
-    newPassword: newPassword.value,
-  })
+  await passwordStore.updatePassword(oldPassword.value, newPassword.value, confirmPassword.value)
 
-  // Kirim ke backend untuk verifikasi dan update password
+  if (passwordStore.error) {
+    showNotif(passwordStore.error, 'error')
+  } else {
+    showNotif(passwordStore.success, 'success')
+
+    oldPassword.value = ''
+    newPassword.value = ''
+    confirmPassword.value = ''
+  }
 }
 </script>

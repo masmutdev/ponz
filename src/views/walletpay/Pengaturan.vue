@@ -63,13 +63,11 @@
 
     <div>
       <div
-        class="flex items-center justify-between p-4 rounded-lg shadow bg-blue-100 dark:bg-gray-800 text-gray-800 dark:text-white"
+        class="flex items-center justify-between p-4 rounded-lg shadow bg-red-500 dark:bg-red-500 text-gray-800 dark:text-white"
       >
-        <router-link to="/login" class="flex items-center gap-3 w-full">
-          <IconLogout class="w-5 h-5" />
-          <span class="flex-1 text-sm font-medium">Logout</span>
-          <IconChevronRight class="w-4 h-4" />
-        </router-link>
+        <button @click="handleLogout" class="flex items-center w-full">
+          <span class="flex-1 text-sm font-bold">Logout</span>
+        </button>
       </div>
     </div>
   </div>
@@ -90,6 +88,16 @@ import {
   IconFileDescription,
   IconLogout,
 } from '@tabler/icons-vue'
+import { useRouter } from 'vue-router'
+import { useUserLogout } from '@/stores/userLogout'
+
+const router = useRouter()
+const logoutStore = useUserLogout()
+
+const handleLogout = async () => {
+  await logoutStore.logout()
+  router.replace({ path: '/login', query: { message: 'Logout berhasil' } })
+}
 
 const menuSaya = [
   { label: 'Keamanan', to: '/keamanan', icon: IconLock },
@@ -97,12 +105,12 @@ const menuSaya = [
   { label: 'Riwayat Transaksi', to: '/riwayat-transaksi', icon: IconHistory },
   { label: 'Riwayat Staking', to: '/riwayat-staking', icon: IconCoin },
   { label: 'Bonus dan Profit', to: '/bonus-profit', icon: IconGift },
-  { label: 'Tautan Undangan', to: '/tautan-undangan', icon: IconLink },
+  { label: 'Tautan Undangan', to: '/undangan', icon: IconLink },
 ]
 
 const informasi = [
   { label: 'Tentang Kami', to: '/tentang-kami', icon: IconInfoCircle },
   { label: 'FAQ', to: '/faq', icon: IconHelpCircle },
-  { label: 'Syarat dan Kebijakan', to: '/syarat', icon: IconFileDescription },
+  { label: 'Syarat dan Kebijakan', to: '/syarat-dan-kebijakan', icon: IconFileDescription },
 ]
 </script>

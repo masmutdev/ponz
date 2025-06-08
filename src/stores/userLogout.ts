@@ -7,7 +7,7 @@ export const useUserLogout = defineStore('userLogout', {
     async logout() {
       try {
         await api.post('/logout/user')
-        localStorage.clear()
+        localStorage.removeItem('token')
       } catch (err) {
         console.error('Logout gagal:', err)
         throw err

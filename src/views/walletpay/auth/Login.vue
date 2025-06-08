@@ -25,7 +25,12 @@
         Login
       </button>
 
-      <Alerts :message="alertMessage" :show="showAlert" @close="showAlert = false" />
+      <Alerts
+        :message="alertMessage"
+        :show="showAlert"
+        :type="alertType"
+        @close="showAlert = false"
+      />
     </form>
     <div class="bg-black/50 shadow-md rounded-lg p-8 w-full max-w-sm space-y-4 mt-4">
       <h2 class="text-sm font-semibold text-center text-gray-100">
@@ -52,11 +57,14 @@ const route = useRoute()
 
 const showAlert = ref(false)
 const alertMessage = ref('')
+const alertType = ref<'success' | 'error'>('error')
 
-const showError = (msg: string) => {
+const showNotif = (msg: string, type: 'success' | 'error' = 'error') => {
   alertMessage.value = msg
+  alertType.value = type
   showAlert.value = true
 }
+
 const hp = ref('')
 const password = ref('')
 const router = useRouter()
@@ -65,15 +73,16 @@ const login = async () => {
   try {
     const res = await api.post('/login/user', { hp: hp.value, password: password.value })
     localStorage.setItem('token', res.data.token)
-    router.push('/')
+    showNotif('Login berhasil', 'success')
+    setTimeout(() => router.push('/'), 1000)
   } catch (err: any) {
-    showError(err.response?.data?.message || 'Login gagal')
+    showNotif(err.response?.data?.message || 'Login gagal', 'error')
   }
 }
 
 onMounted(() => {
   if (route.query.message) {
-    showError(route.query.message as string)
+    showNotif(route.query.message as string, 'error')
   }
 })
 </script>

@@ -1,14 +1,11 @@
 <template>
   <Teleport to="body">
     <div v-if="visible" class="fixed inset-0 flex items-center justify-center z-50">
-      <!-- Backdrop -->
       <div class="absolute inset-0 bg-black/30" @click="close" />
-
-      <!-- Modal -->
       <div
         class="relative z-10 bg-black/70 text-white p-6 rounded-lg text-center max-w-[280px] w-full"
       >
-        <IconXboxX class="mx-auto w-8 h-8 mb-3" />
+        <component :is="iconComponent" class="mx-auto w-8 h-8 mb-3" />
         <p class="text-sm">{{ message }}</p>
       </div>
     </div>
@@ -16,12 +13,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watchEffect } from 'vue'
-import { IconXboxX } from '@tabler/icons-vue'
+import { ref, watchEffect, computed } from 'vue'
+import { IconXboxX, IconCircleCheckFilled } from '@tabler/icons-vue'
 
 const props = defineProps<{
   message: string
   show: boolean
+  type?: 'success' | 'error'
 }>()
 
 const emit = defineEmits(['close'])
@@ -33,7 +31,10 @@ const close = () => {
   emit('close')
 }
 
-// Auto close after 3 seconds
+const iconComponent = computed(() => {
+  return props.type === 'success' ? IconCircleCheckFilled : IconXboxX
+})
+
 watchEffect(() => {
   if (props.show) {
     visible.value = true

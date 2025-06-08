@@ -12,6 +12,11 @@ import Riwayat from '@/views/walletpay/Riwayat.vue'
 import DataPenarikan from '@/views/walletpay/DataPenarikan.vue'
 import Keamanan from '@/views/walletpay/Keamanan.vue'
 import RiwayatTransaksi from '@/views/walletpay/RiwayatTransaksi.vue'
+import RiwayatStaking from '@/views/walletpay/RiwayatStaking.vue'
+import RiwayatBonus from '@/views/walletpay/RiwayatBonus.vue'
+import TentangKami from '@/views/walletpay/TentangKami.vue'
+import FAQ from '@/views/walletpay/FAQ.vue'
+import Kebijakan from '@/views/walletpay/Kebijakan.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -81,6 +86,18 @@ const router = createRouter({
       meta: { requiresAuth: true },
     },
     {
+      path: '/riwayat-staking',
+      name: 'riwayat-staking',
+      component: RiwayatStaking,
+      meta: { requiresAuth: true },
+    },
+    {
+      path: '/bonus-profit',
+      name: 'bonus-profit',
+      component: RiwayatBonus,
+      meta: { requiresAuth: true },
+    },
+    {
       path: '/keamanan',
       name: 'keamanan',
       component: Keamanan,
@@ -96,6 +113,24 @@ const router = createRouter({
       path: '/riwayat-transaksi',
       name: 'riwayat-transaksi',
       component: RiwayatTransaksi,
+      meta: { requiresAuth: true },
+    },
+    {
+      path: '/tentang-kami',
+      name: 'tentang-kami',
+      component: TentangKami,
+      meta: { requiresAuth: true },
+    },
+    {
+      path: '/faq',
+      name: 'faq',
+      component: FAQ,
+      meta: { requiresAuth: true },
+    },
+    {
+      path: '/syarat-dan-kebijakan',
+      name: 'syarat-dan-kebijakan',
+      component: Kebijakan,
       meta: { requiresAuth: true },
     },
     {

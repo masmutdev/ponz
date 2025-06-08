@@ -5,7 +5,7 @@
     </h2>
 
     <div class="flex flex-col items-center gap-2">
-      <img :src="qr" alt="QR Code" class="h-28 w-28 dark:invert" ref="qrRef" />
+      <img :src="qrSrc" alt="QR Code" class="h-28 w-28 dark:invert" ref="qrRef" />
       <p class="text-sm text-gray-700 dark:text-gray-300">Kode Referral Anda:</p>
       <p class="text-center text-sm text-blue-700 dark:text-blue-400 break-all">
         {{ fullReferralLink }}
@@ -76,16 +76,34 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import qr from '@/assets/1/qr-code.png'
+import { ref, onMounted, computed, watch } from 'vue'
+import { useUserUndangan } from '@/stores/userUndangan'
+import QRCode from 'qrcode'
 
-const referralCode = 'ABC123XYZ'
-const fullReferralLink = `https://www.walletpay-business.org/register?invite=${referralCode}`
+const undanganStore = useUserUndangan()
 
+onMounted(() => {
+  undanganStore.fetchUndangan()
+})
+
+const referralCode = computed(() => undanganStore.reff)
+const fullReferralLink = computed(
+  () => `https://www.walletpay-business.org/register?reff=${referralCode.value}`,
+)
+
+const qrSrc = ref('')
 const qrRef = ref(null)
 
+watch(
+  fullReferralLink,
+  async (link) => {
+    qrSrc.value = await QRCode.toDataURL(link)
+  },
+  { immediate: true },
+)
+
 const copyLink = async () => {
-  await navigator.clipboard.writeText(fullReferralLink)
+  await navigator.clipboard.writeText(fullReferralLink.value)
   alert('Link berhasil disalin!')
 }
 

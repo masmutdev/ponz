@@ -49,9 +49,8 @@ const dropdownRef = ref(null)
 const userIconRef = ref(null)
 
 const handleLogout = async () => {
-  dropdownOpen.value = false
   await logoutStore.logout()
-  router.push('/login')
+  router.replace({ path: '/login', query: { message: 'Logout berhasil' } })
 }
 
 const toggleDropdown = () => {
