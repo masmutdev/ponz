@@ -10,9 +10,10 @@
     <!-- Floating CS Icon -->
     <div
       ref="csIcon"
-      class="fixed z-50 bottom-[100px] right-4 cursor-pointer rounded-full overflow-hidden shadow-lg"
+      class="fixed z-50 bottom-[100px] right-4 cursor-pointer rounded-full overflow-hidden shadow-lg touch-none"
       style="width: 56px; height: 56px"
       @mousedown="startDrag"
+      @touchstart="startDrag"
     >
       <a href="https://t.me/+r-HIfxiiTGE4MjQ1" target="_blank" rel="noopener noreferrer">
         <img src="@/assets/1/support.jpeg" alt="CS" class="w-full h-full object-cover" />
@@ -43,26 +44,24 @@ let offset = { x: 0, y: 0 }
 
 const startDrag = (e) => {
   isDragging = true
-  const clientX = e.type.startsWith('touch') ? e.touches[0].clientX : e.clientX
-  const clientY = e.type.startsWith('touch') ? e.touches[0].clientY : e.clientY
 
-  offset.x = clientX - csIcon.value.getBoundingClientRect().left
-  offset.y = clientY - csIcon.value.getBoundingClientRect().top
+  const point = e.type.startsWith('touch') ? e.touches[0] : e
+  offset.x = point.clientX - csIcon.value.getBoundingClientRect().left
+  offset.y = point.clientY - csIcon.value.getBoundingClientRect().top
 
   document.addEventListener('mousemove', onDrag)
   document.addEventListener('mouseup', stopDrag)
-  document.addEventListener('touchmove', onDrag)
+  document.addEventListener('touchmove', onDrag, { passive: false })
   document.addEventListener('touchend', stopDrag)
 }
 
 const onDrag = (e) => {
   if (!isDragging) return
+  if (e.cancelable) e.preventDefault()
 
-  const clientX = e.type.startsWith('touch') ? e.touches[0].clientX : e.clientX
-  const clientY = e.type.startsWith('touch') ? e.touches[0].clientY : e.clientY
-
-  const x = clientX - offset.x
-  const y = clientY - offset.y
+  const point = e.type.startsWith('touch') ? e.touches[0] : e
+  const x = point.clientX - offset.x
+  const y = point.clientY - offset.y
 
   csIcon.value.style.left = `${x}px`
   csIcon.value.style.top = `${y}px`
