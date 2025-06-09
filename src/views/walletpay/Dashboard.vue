@@ -197,14 +197,14 @@
           >
             <button
               @click="closePengumuman"
-              class="absolute top-2 right-10 text-gray-600 dark:text-gray-200 z-10 p-1 rounded hover:bg-gray-200 dark:hover:bg-gray-700"
+              class="absolute top-2 right-[5%] text-gray-600 dark:text-gray-200 z-10 p-1 rounded hover:bg-gray-200 dark:hover:bg-gray-700"
             >
               <IconX :size="22" stroke-width="2.5" />
             </button>
             <img
               :src="pengumumanImg"
               alt="Pengumuman"
-              class="w-max h-auto max-h-[400px] object-contain rounded-lg"
+              class="w-full h-auto object-contain rounded-lg"
             />
           </div>
         </div>

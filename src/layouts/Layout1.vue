@@ -10,7 +10,7 @@
     <!-- Floating CS Icon -->
     <div
       ref="csIcon"
-      class="fixed z-50 bottom-4 right-4 cursor-pointer rounded-full overflow-hidden shadow-lg"
+      class="fixed z-50 bottom-[100px] right-4 cursor-pointer rounded-full overflow-hidden shadow-lg"
       style="width: 56px; height: 56px"
       @mousedown="startDrag"
     >
