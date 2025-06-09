@@ -185,6 +185,31 @@
         </tr>
       </tbody>
     </table>
+
+    <teleport to="body">
+      <transition name="fade">
+        <div
+          v-if="showPengumuman"
+          class="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50 px-4"
+        >
+          <div
+            class="relative bg-transparent rounded-lg overflow-hidden w-full max-w-md flex justify-center items-center"
+          >
+            <button
+              @click="closePengumuman"
+              class="absolute top-2 right-10 text-gray-600 dark:text-gray-200 z-10 p-1 rounded hover:bg-gray-200 dark:hover:bg-gray-700"
+            >
+              <IconX :size="22" stroke-width="2.5" />
+            </button>
+            <img
+              :src="pengumumanImg"
+              alt="Pengumuman"
+              class="w-max h-auto max-h-[400px] object-contain rounded-lg"
+            />
+          </div>
+        </div>
+      </transition>
+    </teleport>
   </div>
 </template>
 
@@ -192,12 +217,24 @@
 import serverBg from '@/assets/1/server-room.png'
 import logo from '@/assets/1/logo.png'
 import qr from '@/assets/1/qr-code.png'
-import { onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useUserDashboard } from '@/stores/userDashboard'
+import pengumumanImg from '@/assets/1/pengumuman.jpeg'
+import { IconX } from '@tabler/icons-vue'
 
 const dashboard = useUserDashboard()
+const showPengumuman = ref(true)
 
 onMounted(() => {
   dashboard.fetchUserDashboard()
+})
+
+const closePengumuman = () => {
+  showPengumuman.value = false
+}
+
+onMounted(() => {
+  dashboard.fetchUserDashboard()
+  showPengumuman.value = true // modal muncul pas mounted
 })
 </script>

@@ -7,6 +7,18 @@
       <slot />
     </main>
 
+    <!-- Floating CS Icon -->
+    <div
+      ref="csIcon"
+      class="fixed z-50 bottom-4 right-4 cursor-pointer rounded-full overflow-hidden shadow-lg"
+      style="width: 56px; height: 56px"
+      @mousedown="startDrag"
+    >
+      <a href="https://t.me/+r-HIfxiiTGE4MjQ1" target="_blank" rel="noopener noreferrer">
+        <img src="@/assets/1/support.jpeg" alt="CS" class="w-full h-full object-cover" />
+      </a>
+    </div>
+
     <Footer />
   </div>
 </template>
@@ -23,4 +35,37 @@ const notifikasiStore = userNotifikasi()
 onMounted(() => {
   notifikasiStore.fetchNotifikasi()
 })
+
+const csIcon = ref(null)
+
+let isDragging = false
+let offset = { x: 0, y: 0 }
+
+const startDrag = (e) => {
+  isDragging = true
+  offset.x = e.clientX - csIcon.value.getBoundingClientRect().left
+  offset.y = e.clientY - csIcon.value.getBoundingClientRect().top
+
+  document.addEventListener('mousemove', onDrag)
+  document.addEventListener('mouseup', stopDrag)
+}
+
+const onDrag = (e) => {
+  if (!isDragging) return
+
+  const x = e.clientX - offset.x
+  const y = e.clientY - offset.y
+
+  csIcon.value.style.left = `${x}px`
+  csIcon.value.style.top = `${y}px`
+  csIcon.value.style.right = 'auto'
+  csIcon.value.style.bottom = 'auto'
+  csIcon.value.style.position = 'fixed'
+}
+
+const stopDrag = () => {
+  isDragging = false
+  document.removeEventListener('mousemove', onDrag)
+  document.removeEventListener('mouseup', stopDrag)
+}
 </script>
