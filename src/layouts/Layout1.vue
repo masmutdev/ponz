@@ -43,18 +43,26 @@ let offset = { x: 0, y: 0 }
 
 const startDrag = (e) => {
   isDragging = true
-  offset.x = e.clientX - csIcon.value.getBoundingClientRect().left
-  offset.y = e.clientY - csIcon.value.getBoundingClientRect().top
+  const clientX = e.type.startsWith('touch') ? e.touches[0].clientX : e.clientX
+  const clientY = e.type.startsWith('touch') ? e.touches[0].clientY : e.clientY
+
+  offset.x = clientX - csIcon.value.getBoundingClientRect().left
+  offset.y = clientY - csIcon.value.getBoundingClientRect().top
 
   document.addEventListener('mousemove', onDrag)
   document.addEventListener('mouseup', stopDrag)
+  document.addEventListener('touchmove', onDrag)
+  document.addEventListener('touchend', stopDrag)
 }
 
 const onDrag = (e) => {
   if (!isDragging) return
 
-  const x = e.clientX - offset.x
-  const y = e.clientY - offset.y
+  const clientX = e.type.startsWith('touch') ? e.touches[0].clientX : e.clientX
+  const clientY = e.type.startsWith('touch') ? e.touches[0].clientY : e.clientY
+
+  const x = clientX - offset.x
+  const y = clientY - offset.y
 
   csIcon.value.style.left = `${x}px`
   csIcon.value.style.top = `${y}px`
@@ -67,5 +75,7 @@ const stopDrag = () => {
   isDragging = false
   document.removeEventListener('mousemove', onDrag)
   document.removeEventListener('mouseup', stopDrag)
+  document.removeEventListener('touchmove', onDrag)
+  document.removeEventListener('touchend', stopDrag)
 }
 </script>
