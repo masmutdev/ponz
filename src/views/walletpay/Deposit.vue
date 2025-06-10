@@ -7,7 +7,7 @@
       class="absolute top-[-5px] right-2 h-20 w-20 opacity-50"
     />
     <p class="text-sm text-blue-200 font-semibold">Saldo</p>
-    <p class="text-lg text-white font-bold">Rp. 7.500.000</p>
+    <p class="text-lg text-white font-bold">{{ formatUSD(saldoStore.saldo) }}</p>
   </div>
   <div
     class="max-w-md mx-auto mt-2 p-6 pt-2 bg-blue-100 dark:bg-gray-800 rounded-lg shadow-md space-y-4"
@@ -51,6 +51,14 @@
 </template>
 <script setup>
 import { ref } from 'vue'
+import { onMounted } from 'vue'
+import { useUserSaldo } from '@/stores/userSaldo'
+
+const saldoStore = useUserSaldo()
+
+onMounted(() => {
+  saldoStore.fetchSaldo()
+})
 
 const nominal = ref('')
 const presets = [15, 30, 50, 100, 200, 500, 1000, 2000]
@@ -62,6 +70,10 @@ const setNominal = (amount) => {
 const submitDeposit = () => {
   console.log('Nominal deposit:', nominal.value)
   // Lanjut ke API / proses pembayaran
+}
+
+const formatUSD = (angka) => {
+  return `$${(angka / 16000).toFixed(2)}`
 }
 
 const panduan = [

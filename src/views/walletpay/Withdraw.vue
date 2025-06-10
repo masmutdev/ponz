@@ -6,7 +6,7 @@
       class="absolute top-[-5px] right-2 h-20 w-20 opacity-50"
     />
     <p class="text-sm text-blue-200 font-semibold">Saldo</p>
-    <p class="text-lg text-white font-bold">Rp. 7.500.000</p>
+    <p class="text-lg text-white font-bold">{{ formatUSD(saldoStore.saldo) }}</p>
   </div>
 
   <div class="max-w-md mx-auto mt-2 bg-blue-100 dark:bg-gray-800 rounded-lg shadow space-y-3">
@@ -134,24 +134,73 @@
       <p>Pastikan data penarikan Anda sudah benar dan lengkap agar proses berjalan lancar.</p>
     </div>
   </div>
+  <Alerts :message="alertMessage" :show="showAlert" :type="alertType" @close="showAlert = false" />
 </template>
 
 <script setup>
-import { ref } from 'vue'
 import { IconChevronRight, IconChevronDown } from '@tabler/icons-vue'
+import { useUserSaldo } from '@/stores/userSaldo'
+import { ref, onMounted } from 'vue'
+import { useUserDataRekening } from '@/stores/userDataRekening'
+import { useUserSimpanWithdraw } from '@/stores/userSimpanWithdraw'
+import Alerts from '@/components/ui/walletpay/Alerts.vue'
+
+const alertMessage = ref('')
+const alertType = ref('success')
+const showAlert = ref(false)
+
+const showInfo = (msg, type = 'success') => {
+  alertMessage.value = msg
+  alertType.value = type
+  showAlert.value = true
+}
+
+const jumlah = ref(null)
+const withdrawStore = useUserSimpanWithdraw()
+
+const submitWithdraw = async () => {
+  if (!jumlah.value || isNaN(jumlah.value) || jumlah.value < 1) {
+    alert('Jumlah withdraw tidak valid')
+    return
+  }
+
+  await withdrawStore.simpan(jumlah.value)
+
+  if (withdrawStore.error) {
+    showInfo(withdrawStore.error, 'error')
+  } else {
+    showInfo(withdrawStore.success)
+  }
+}
+
+const rekeningStore = useUserDataRekening()
+const bank = ref('')
+const pemilik = ref('')
+const rekening = ref('')
+
+const showBankInfo = ref(true)
+
+onMounted(async () => {
+  await rekeningStore.fetchRekening()
+  const data = rekeningStore.data
+  bank.value = data.bank
+  pemilik.value = data.pemilik
+  rekening.value = data.norek
+})
+
+const saldoStore = useUserSaldo()
+
+onMounted(() => {
+  saldoStore.fetchSaldo()
+})
 
 const peraturan = [
   'Minimal Penarikan: $10.00 (setara dengan Rp 170.000)',
   'Biaya Penarikan E-wallet: 0% dari total penarikan',
   'Biaya Penarikan Bank: 5% dari total penarikan',
 ]
-const showBankInfo = ref(false)
-const jumlah = ref('')
 
-const submitWithdraw = () => {
-  console.log('Withdraw:', {
-    jumlah: jumlah.value,
-  })
-  // Kirim ke API atau validasi dulu
+const formatUSD = (angka) => {
+  return `$${(angka / 16000).toFixed(2)}`
 }
 </script>
