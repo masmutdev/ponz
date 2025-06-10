@@ -8,25 +8,36 @@
       class="bg-blue-300 text-blue-800 dark:bg-blue-900 dark:text-white p-4 rounded-lg shadow text-center"
     >
       <p class="text-xs text-gray-600 dark:text-gray-300">Total Deposit</p>
-      <p class="text-base font-bold text-gray-800 dark:text-white">Rp 12.000.000</p>
+      <p class="text-base font-bold text-gray-800 dark:text-white">
+        {{ formatUSD(pengaturan.totalDeposit) }}
+      </p>
     </div>
+
     <div
       class="bg-blue-300 text-blue-800 dark:bg-blue-900 dark:text-white p-4 rounded-lg shadow text-center"
     >
       <p class="text-xs text-gray-600 dark:text-gray-300">Total Withdraw</p>
-      <p class="text-base font-bold text-gray-800 dark:text-white">Rp 7.500.000</p>
+      <p class="text-base font-bold text-gray-800 dark:text-white">
+        {{ formatUSD(pengaturan.totalWithdraw) }}
+      </p>
     </div>
+
     <div
       class="bg-blue-300 text-blue-800 dark:bg-blue-900 dark:text-white p-4 rounded-lg shadow text-center"
     >
       <p class="text-xs text-gray-600 dark:text-gray-300">Total Profit</p>
-      <p class="text-base font-bold text-gray-800 dark:text-white">Rp 2.100.000</p>
+      <p class="text-base font-bold text-gray-800 dark:text-white">
+        {{ formatUSD(pengaturan.totalBonus) }}
+      </p>
     </div>
+
     <div
       class="bg-blue-300 text-blue-800 dark:bg-blue-900 dark:text-white p-4 rounded-lg shadow text-center"
     >
       <p class="text-xs text-gray-600 dark:text-gray-300">Total Staking</p>
-      <p class="text-base font-bold text-gray-800 dark:text-white">Rp 12.000.000</p>
+      <p class="text-base font-bold text-gray-800 dark:text-white">
+        {{ formatUSD(pengaturan.totalStaking) }}
+      </p>
     </div>
   </div>
   <VIPBar class="my-5" />
@@ -90,6 +101,19 @@ import {
 } from '@tabler/icons-vue'
 import { useRouter } from 'vue-router'
 import { useUserLogout } from '@/stores/userLogout'
+import { onMounted } from 'vue'
+import { userPengaturan } from '@/stores/userPengaturan'
+
+const pengaturan = userPengaturan()
+
+onMounted(() => {
+  pengaturan.fetchPengaturan()
+})
+
+const formatUSD = (value) => {
+  const usd = Number(value) / 16000
+  return '$' + usd.toFixed(2)
+}
 
 const router = useRouter()
 const logoutStore = useUserLogout()

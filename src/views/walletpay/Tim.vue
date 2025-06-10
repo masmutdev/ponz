@@ -46,6 +46,8 @@
           <thead>
             <tr class="border-b border-gray-300 dark:border-gray-600">
               <th class="py-2 text-center">No</th>
+              <th class="py-2 text-center">Nama</th>
+              <th class="py-2 text-center">Email</th>
               <th class="py-2 text-center">No HP</th>
               <th class="py-2 text-center">Level</th>
               <th class="py-2 text-center">Deposit</th>
@@ -59,10 +61,12 @@
               class="border-b border-gray-200 dark:border-gray-700"
             >
               <td class="py-2 text-center">{{ index + 1 }}</td>
+              <td class="py-2 text-center">{{ member.nama }}</td>
+              <td class="py-2 text-center">{{ member.email }}</td>
               <td class="py-2 text-center">{{ member.hp }}</td>
               <td class="py-2 text-center">{{ member.level }}</td>
-              <td class="py-2 text-center">Rp {{ member.deposit.toLocaleString() }}</td>
-              <td class="py-2 text-center">Rp {{ member.staking.toLocaleString() }}</td>
+              <td class="py-2 text-center">{{ formatUSD(member.deposit) }}</td>
+              <td class="py-2 text-center">{{ formatUSD(member.staking) }}</td>
             </tr>
           </tbody>
         </table>
@@ -72,20 +76,54 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { computed, onMounted } from 'vue'
+import { useUserDataDownline } from '@/stores/userDataDownline'
 
-const summary = [
-  { label: 'Total Tim', value: '126' },
-  { label: 'Total Tim Aktif', value: '89' },
-  { label: 'Total Deposit Tim', value: 'Rp 5.120.000' },
-  { label: 'Total Penarikan Tim', value: 'Rp 5.75.000' },
-  { label: 'Total Staking Tim', value: 'Rp 5.200.000' },
-  { label: 'Total Profit Tim', value: 'Rp 15.000.000' },
-]
+const store = useUserDataDownline()
 
-const tim = ref([
-  { hp: '081234567890', level: 1, deposit: 3000000, staking: 1500000 },
-  { hp: '089876543210', level: 2, deposit: 2500000, staking: 1000000 },
-  { hp: '082112223334', level: 3, deposit: 1200000, staking: 500000 },
-])
+onMounted(() => {
+  store.fetchDownline()
+})
+
+const formatUSD = (value) => {
+  const usd = Number(value) / 16000
+  return '$' + usd.toFixed(2)
+}
+
+const summary = computed(() => {
+  const allLevels = Object.values(store.data || {})
+  const allUsers = allLevels.flatMap((l) => l.users || [])
+
+  const totalTeam = allUsers.length
+  const totalActive = allUsers.filter((u) => u.total_deposit > 0).length
+
+  const totalDeposit = allUsers.reduce((acc, u) => acc + Number(u.total_deposit), 0)
+  const totalWithdraw = allUsers.reduce((acc, u) => acc + Number(u.total_withdraw), 0)
+  const totalProfit = allUsers.reduce((acc, u) => acc + Number(u.total_profit), 0)
+  const totalStaking = allUsers.reduce((acc, u) => acc + Number(u.total_staking), 0)
+
+  return [
+    { label: 'Total Tim', value: totalTeam },
+    { label: 'Anggota Aktif', value: totalActive },
+    { label: 'Deposit', value: formatUSD(totalDeposit) },
+    { label: 'Penarikan', value: formatUSD(totalWithdraw) },
+    { label: 'Profit Hari Ini', value: formatUSD(totalProfit) },
+    { label: 'Total Staking Tim', value: formatUSD(totalStaking) },
+  ]
+})
+
+const tim = computed(() => {
+  const allLevels = Object.entries(store.data || {})
+
+  return allLevels.flatMap(([levelKey, data]) =>
+    (data.users || []).map((user) => ({
+      nama: user.nama,
+      email: user.email,
+      hp: user.hp,
+      level: levelKey.replace('level_', ''),
+      deposit: Number(user.total_deposit),
+      staking: Number(user.total_staking),
+    })),
+  )
+})
 </script>
