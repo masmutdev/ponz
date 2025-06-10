@@ -39,7 +39,9 @@
       >
         <div class="flex justify-between items-center">
           <p class="font-semibold text-blue-800 dark:text-blue-400">Transaksi Deposit</p>
-          <p class="font-semibold text-blue-800 dark:text-blue-400">Rp. {{ item.nominal }}</p>
+          <p class="font-semibold text-blue-800 dark:text-blue-400">
+            {{ formatUSD(item.nominal) }}
+          </p>
         </div>
 
         <p class="text-xs text-gray-600 dark:text-gray-300 text-center">
@@ -82,13 +84,21 @@
       >
         <div class="flex justify-between items-center">
           <p class="font-semibold text-blue-800 dark:text-blue-400">Transaksi Withdraw</p>
-          <p class="font-semibold text-blue-800 dark:text-blue-400">Rp. {{ item.nominal }}</p>
+          <p class="font-semibold text-blue-800 dark:text-blue-400">
+            {{ formatUSD(item.nominal) }}
+          </p>
         </div>
         <p class="text-xs text-gray-600 dark:text-gray-300 text-center">
           {{ item.created_at }}
         </p>
-        <p class="text-gray-500 dark:text-gray-400 text-center">
-          {{ item.bank }} - {{ item.pemilik }} ({{ item.rekening }})
+        <p
+          v-if="item.bank || item.pemilik || item.rekening"
+          class="text-gray-500 dark:text-gray-400 text-center"
+        >
+          {{ item.bank }}
+          <span v-if="item.bank && item.pemilik"> - </span>
+          {{ item.pemilik }}
+          <span v-if="item.pemilik && item.rekening"> ({{ item.rekening }})</span>
         </p>
         <p class="text-gray-500 dark:text-gray-400 text-center">
           {{ getKeterangan(statusLabel(item.status), tab === 'withdraw') }}
@@ -96,9 +106,9 @@
         <div class="flex justify-center">
           <span
             class="px-3 py-1 rounded-full text-xs font-medium"
-            :class="getStatusClass(item.status)"
+            :class="getStatusClass(statusLabel(item.status))"
           >
-            {{ item.status }}
+            {{ statusLabel(item.status) }}
           </span>
         </div>
       </div>
@@ -135,9 +145,9 @@ const dataWithdraw = computed(() =>
     nominal: item.jumlah_withdraw,
     created_at: item.created_at,
     status: Number(item.status),
-    bank: item.bank || '-',
-    pemilik: item.pemilik || '-',
-    rekening: item.rekening || '-',
+    bank: item.bank?.trim() ? item.bank : null,
+    pemilik: item.pemilik?.trim() ? item.pemilik : null,
+    rekening: item.rekening?.trim() ? item.rekening : null,
   })),
 )
 
@@ -187,5 +197,9 @@ const getStatusClass = (status) => {
     'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300':
       status === 'Failed' || status === 'Expired',
   }
+}
+
+const formatUSD = (angka) => {
+  return `$${(angka / 16000).toFixed(2)}`
 }
 </script>

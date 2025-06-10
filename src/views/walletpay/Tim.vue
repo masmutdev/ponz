@@ -37,40 +37,37 @@
     </div>
 
     <!-- Tabel Tim -->
-    <div class="bg-blue-100 dark:bg-gray-800 rounded-lg shadow p-4">
-      <h3 class="text-md font-semibold text-gray-800 dark:text-white mb-3 text-center">
-        Daftar Tim Level Anda
-      </h3>
-      <div class="overflow-auto">
-        <table class="min-w-[600px] w-full text-sm text-left text-gray-700 dark:text-gray-300">
-          <thead>
-            <tr class="border-b border-gray-300 dark:border-gray-600">
-              <th class="py-2 text-center">No</th>
-              <th class="py-2 text-center">Nama</th>
-              <th class="py-2 text-center">Email</th>
-              <th class="py-2 text-center">No HP</th>
-              <th class="py-2 text-center">Level</th>
-              <th class="py-2 text-center">Deposit</th>
-              <th class="py-2 text-center">Staking</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr
-              v-for="(member, index) in tim"
-              :key="index"
-              class="border-b border-gray-200 dark:border-gray-700"
-            >
-              <td class="py-2 text-center">{{ index + 1 }}</td>
-              <td class="py-2 text-center">{{ member.nama }}</td>
-              <td class="py-2 text-center">{{ member.email }}</td>
-              <td class="py-2 text-center">{{ member.hp }}</td>
-              <td class="py-2 text-center">{{ member.level }}</td>
-              <td class="py-2 text-center">{{ formatUSD(member.deposit) }}</td>
-              <td class="py-2 text-center">{{ formatUSD(member.staking) }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+    <h3 class="text-md font-semibold text-gray-800 dark:text-white mb-3 text-center">
+      Daftar Tim Level Anda
+    </h3>
+    <div class="space-y-4">
+      <table
+        v-for="(member, index) in tim"
+        :key="index"
+        class="min-w-full w-full text-sm text-gray-800 dark:text-gray-200 bg-blue-100 dark:bg-blue-900 rounded-lg overflow-hidden shadow"
+      >
+        <tbody>
+          <tr class="border-b border-gray-300 dark:border-gray-600">
+            <td class="py-2 px-4" colspan="2"><strong>Nama:</strong> {{ member.nama }}</td>
+          </tr>
+          <tr class="border-b border-gray-300 dark:border-gray-600">
+            <td class="py-2 px-4" colspan="2"><strong>Email:</strong> {{ member.email }}</td>
+          </tr>
+          <tr class="border-b border-gray-300 dark:border-gray-600">
+            <td class="py-2 px-4" colspan="2"><strong>No HP:</strong> {{ member.hp }}</td>
+          </tr>
+          <tr class="border-b border-gray-300 dark:border-gray-600">
+            <td class="py-2 px-4" colspan="2">
+              <strong>Deposit:</strong> {{ formatUSD(member.deposit) }}
+            </td>
+          </tr>
+          <tr>
+            <td class="py-2 px-4" colspan="2">
+              <strong>Staking:</strong> {{ formatUSD(member.staking) }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </template>
