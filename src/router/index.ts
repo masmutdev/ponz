@@ -19,6 +19,7 @@ import FAQ from '@/views/walletpay/FAQ.vue'
 import Kebijakan from '@/views/walletpay/Kebijakan.vue'
 import Downline from '@/views/walletpay/Downline.vue'
 import ActiveDownline from '@/views/walletpay/ActiveDownline.vue'
+import DetailDeposit from '../views/walletpay/DetailDeposit.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -61,6 +62,12 @@ const router = createRouter({
       path: '/deposit',
       name: 'deposit',
       component: Deposit,
+      meta: { requiresAuth: true },
+    },
+    {
+      path: '/detail-deposit',
+      name: 'detail-deposit',
+      component: DetailDeposit,
       meta: { requiresAuth: true },
     },
     {

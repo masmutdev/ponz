@@ -48,13 +48,27 @@
       <li v-for="(step, i) in panduan" :key="i">{{ step }}</li>
     </ol>
   </div>
+  <Alerts :message="alertMessage" :show="showAlert" :type="alertType" @close="showAlert = false" />
 </template>
 <script setup>
 import { ref } from 'vue'
 import { onMounted } from 'vue'
 import { useUserSaldo } from '@/stores/userSaldo'
+import { useUserSimpanDeposit } from '@/stores/userSimpanDeposit'
+import Alerts from '@/components/ui/walletpay/Alerts.vue'
+import { useRouter } from 'vue-router'
+const router = useRouter()
 
 const saldoStore = useUserSaldo()
+const alertMessage = ref('')
+const alertType = ref('success')
+const showAlert = ref(false)
+
+const showInfo = (msg, type = 'success') => {
+  alertMessage.value = msg
+  alertType.value = type
+  showAlert.value = true
+}
 
 onMounted(() => {
   saldoStore.fetchSaldo()
@@ -67,9 +81,36 @@ const setNominal = (amount) => {
   nominal.value = amount
 }
 
-const submitDeposit = () => {
-  console.log('Nominal deposit:', nominal.value)
-  // Lanjut ke API / proses pembayaran
+const depositStore = useUserSimpanDeposit()
+
+const submitDeposit = async () => {
+  const jumlahUSD = Number(nominal.value)
+
+  if (!jumlahUSD || jumlahUSD < 15) {
+    alert('Minimal deposit adalah $15')
+    return
+  }
+
+  await depositStore.simpan(jumlahUSD)
+
+  if (depositStore.error) {
+    showInfo(depositStore.error, 'error')
+  } else {
+    showInfo(depositStore.message)
+    saldoStore.fetchSaldo()
+
+    if (depositStore.invoice && depositStore.orderId) {
+      setTimeout(() => {
+        router.push({
+          path: '/detail-deposit',
+          query: {
+            invoice: depositStore.invoice,
+            order_id: depositStore.orderId,
+          },
+        })
+      }, 3000)
+    }
+  }
 }
 
 const formatUSD = (angka) => {

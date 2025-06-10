@@ -9,6 +9,7 @@
 
     <!-- Floating CS Icon -->
     <div
+      v-if="!isDetailDeposit"
       ref="csIcon"
       class="fixed z-50 bottom-[100px] right-4 cursor-pointer rounded-full overflow-hidden shadow-lg touch-none"
       style="width: 56px; height: 56px"
@@ -20,7 +21,8 @@
       </a>
     </div>
 
-    <Footer />
+    <!-- Footer -->
+    <Footer v-if="!isDetailDeposit" />
   </div>
 </template>
 
@@ -28,8 +30,14 @@
 import Navbar from '@/components/layout/Navbar.vue'
 import Footer from '@/components/layout/Footer.vue'
 
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, computed } from 'vue'
 import { userNotifikasi } from '@/stores/userNotifikasi'
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
+const isDetailDeposit = computed(() => {
+  return route.path === '/detail-deposit' && route.query.invoice && route.query.order_id
+})
 
 const notifikasiStore = userNotifikasi()
 
