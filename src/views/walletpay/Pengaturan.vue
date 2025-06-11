@@ -3,44 +3,31 @@
     <h2 class="text-xl font-bold text-gray-800 dark:text-white text-center">Pengaturan</h2>
   </div>
 
-  <div class="grid grid-cols-2 gap-4 max-w-md mx-auto mt-2">
-    <div
-      class="bg-blue-300 text-blue-800 dark:bg-blue-900 dark:text-white p-4 rounded-lg shadow text-center"
-    >
-      <p class="text-xs text-gray-600 dark:text-gray-300">Total Deposit</p>
-      <p class="text-base font-bold text-gray-800 dark:text-white">
-        {{ formatUSD(pengaturan.totalDeposit) }}
-      </p>
+  <VIPBar class="my-5" />
+  <div
+    class="bg-blue-300 text-blue-800 dark:bg-blue-900 dark:text-white p-4 rounded-md max-w-lg mx-auto space-y-3"
+  >
+    <div class="flex justify-between text-sm border-b border-white/20 pb-1">
+      <span>Total deposit</span>
+      <span class="font-bold">${{ formatUSD(pengaturan.totalDeposit) }}</span>
     </div>
 
-    <div
-      class="bg-blue-300 text-blue-800 dark:bg-blue-900 dark:text-white p-4 rounded-lg shadow text-center"
-    >
-      <p class="text-xs text-gray-600 dark:text-gray-300">Total Withdraw</p>
-      <p class="text-base font-bold text-gray-800 dark:text-white">
-        {{ formatUSD(pengaturan.totalWithdraw) }}
-      </p>
+    <div class="flex justify-between text-sm border-b border-white/20 pb-1">
+      <span>Total withdraw</span>
+      <span class="font-bold">${{ formatUSD(pengaturan.totalWithdraw) }}</span>
     </div>
 
-    <div
-      class="bg-blue-300 text-blue-800 dark:bg-blue-900 dark:text-white p-4 rounded-lg shadow text-center"
-    >
-      <p class="text-xs text-gray-600 dark:text-gray-300">Total Profit</p>
-      <p class="text-base font-bold text-gray-800 dark:text-white">
-        {{ formatUSD(pengaturan.totalBonus) }}
-      </p>
+    <div class="flex justify-between text-sm border-b border-white/20 pb-1">
+      <span>Total profit</span>
+      <span class="font-bold">${{ formatUSD(pengaturan.totalBonus) }}</span>
     </div>
 
-    <div
-      class="bg-blue-300 text-blue-800 dark:bg-blue-900 dark:text-white p-4 rounded-lg shadow text-center"
-    >
-      <p class="text-xs text-gray-600 dark:text-gray-300">Total Staking</p>
-      <p class="text-base font-bold text-gray-800 dark:text-white">
-        {{ formatUSD(pengaturan.totalStaking) }}
-      </p>
+    <div class="flex justify-between text-sm">
+      <span>Total staking</span>
+      <span class="font-bold">${{ formatUSD(pengaturan.totalStaking) }}</span>
     </div>
   </div>
-  <VIPBar class="my-5" />
+
   <div class="max-w-md mx-auto mt-2 space-y-6">
     <div class="space-y-1">
       <h3 class="text-sm font-semibold text-gray-600 dark:text-gray-300 px-2 my-4">Menu Saya</h3>

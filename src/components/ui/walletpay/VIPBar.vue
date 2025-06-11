@@ -6,7 +6,7 @@
 
     <div class="w-full bg-gray-200 dark:bg-blue-950 rounded-full h-4 overflow-hidden">
       <div
-        class="bg-blue-600 dark:bg-white h-full transition-all duration-300"
+        class="bg-green-300 dark:bg-white h-full transition-all duration-300"
         :style="{ width: progress + '%' }"
       ></div>
     </div>
