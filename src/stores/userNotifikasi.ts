@@ -23,7 +23,7 @@ export const userNotifikasi = defineStore('notifikasi', {
         const { bonus, deposit, withdraw } = res.data.notifications
         const now = new Date()
 
-        const formatUSD = (angka: number) => `${(angka / 16000).toFixed(2)}`
+        const formatUSD = (angka: number) => `$${(angka / 16000).toFixed(2)}`
         const formatUSDBonus = (angka: number) =>
           `$${Math.round(angka / 16000).toLocaleString('en-US')}`
 

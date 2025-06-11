@@ -9,22 +9,22 @@
   >
     <div class="flex justify-between text-sm border-b border-white/20 pb-1">
       <span>Total deposit</span>
-      <span class="font-bold">${{ formatUSD(pengaturan.totalDeposit) }}</span>
+      <span class="font-bold">{{ formatUSD(pengaturan.totalDeposit) }}</span>
     </div>
 
     <div class="flex justify-between text-sm border-b border-white/20 pb-1">
       <span>Total withdraw</span>
-      <span class="font-bold">${{ formatUSD(pengaturan.totalWithdraw) }}</span>
+      <span class="font-bold">{{ formatUSD(pengaturan.totalWithdraw) }}</span>
     </div>
 
     <div class="flex justify-between text-sm border-b border-white/20 pb-1">
       <span>Total profit</span>
-      <span class="font-bold">${{ formatUSD(pengaturan.totalBonus) }}</span>
+      <span class="font-bold">{{ formatUSD(pengaturan.totalBonus) }}</span>
     </div>
 
     <div class="flex justify-between text-sm">
       <span>Total staking</span>
-      <span class="font-bold">${{ formatUSD(pengaturan.totalStaking) }}</span>
+      <span class="font-bold">{{ formatUSD(pengaturan.totalStaking) }}</span>
     </div>
   </div>
 
