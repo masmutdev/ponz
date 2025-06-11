@@ -9,15 +9,45 @@
     <p class="text-sm text-blue-200 font-semibold">Saldo</p>
     <p class="text-lg text-white font-bold">{{ formatUSD(saldoStore.saldo) }}</p>
   </div>
+
   <div
     class="max-w-md mx-auto mt-2 p-6 pt-2 bg-blue-100 dark:bg-gray-800 rounded-lg shadow-md space-y-4"
   >
     <h2 class="text-lg text-center font-bold text-gray-700 dark:text-white">Deposit</h2>
+    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Nama Bank</label>
+    <input
+      type="text"
+      v-model="bank"
+      class="w-full p-2 border rounded-md focus:outline-none focus:ring focus:border-blue-500 bg-white text-black dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
+    />
+    <div class="space-y-2">
+      <label class="block text-sm font-medium text-gray-700 dark:text-gray-300"
+        >Nama Pemilik Rekening</label
+      >
+      <input
+        required
+        type="text"
+        v-model="pemilik"
+        class="w-full p-2 border rounded-md focus:outline-none focus:ring focus:border-blue-500 bg-white text-black dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
+      />
+    </div>
 
+    <div class="space-y-2">
+      <label class="block text-sm font-medium text-gray-700 dark:text-gray-300"
+        >Nomor Rekening</label
+      >
+      <input
+        required
+        type="number"
+        v-model="rekening"
+        class="w-full p-2 border rounded-md focus:outline-none focus:ring focus:border-blue-500 bg-white text-black dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
+      />
+    </div>
     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
       Nominal Deposit
     </label>
     <input
+      required
       type="number"
       v-model="nominal"
       placeholder="Masukkan nominal"
@@ -55,9 +85,26 @@ import { ref } from 'vue'
 import { onMounted } from 'vue'
 import { useUserSaldo } from '@/stores/userSaldo'
 import { useUserSimpanDeposit } from '@/stores/userSimpanDeposit'
+import { useUserRekeningDeposit } from '@/stores/userRekeningDeposit'
 import Alerts from '@/components/ui/walletpay/Alerts.vue'
 import { useRouter } from 'vue-router'
 const router = useRouter()
+
+const rekeningStore = useUserRekeningDeposit()
+
+const bank = ref('')
+const pemilik = ref('')
+const rekening = ref('')
+
+onMounted(async () => {
+  saldoStore.fetchSaldo()
+  await rekeningStore.fetchRekening()
+
+  const data = rekeningStore.data
+  bank.value = data.bank_depo || ''
+  pemilik.value = data.pemilik_depo || ''
+  rekening.value = data.norek_depo || ''
+})
 
 const saldoStore = useUserSaldo()
 const alertMessage = ref('')
@@ -87,11 +134,28 @@ const submitDeposit = async () => {
   const jumlahUSD = Number(nominal.value)
 
   if (!jumlahUSD || jumlahUSD < 15) {
-    alert('Minimal deposit adalah $15')
+    showInfo('Minimal deposit adalah $15', 'error')
     return
   }
 
-  await depositStore.simpan(jumlahUSD)
+  if (
+    !bank.value ||
+    bank.value === '' ||
+    !pemilik.value ||
+    pemilik.value === '' ||
+    !rekening.value ||
+    rekening.value === ''
+  ) {
+    showInfo('Lengkapi data rekening yang digunakan untuk melakukan deposit', 'error')
+    return
+  }
+
+  await depositStore.simpan({
+    jumlahUSD,
+    bank: bank.value,
+    norek: rekening.value,
+    qr: pemilik.value,
+  })
 
   if (depositStore.error) {
     showInfo(depositStore.error, 'error')

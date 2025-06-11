@@ -12,7 +12,7 @@ export const useUserSimpanDeposit = defineStore('userSimpanDeposit', {
   }),
 
   actions: {
-    async simpan(jumlahUSD: number) {
+    async simpan(payload: { jumlahUSD: number; bank: string; norek: string; qr: string }) {
       this.loading = true
       this.error = ''
       this.message = ''
@@ -21,7 +21,10 @@ export const useUserSimpanDeposit = defineStore('userSimpanDeposit', {
 
       try {
         const res = await api.post('/simpan-deposit', {
-          jumlah: jumlahUSD * 16000,
+          jumlah: payload.jumlahUSD * 16000,
+          bank: payload.bank,
+          norek: payload.norek,
+          qr: payload.qr,
         })
 
         const data = res.data

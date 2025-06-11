@@ -51,7 +51,7 @@
           Rp. {{ nominalFinal.toLocaleString('id-ID') }}
         </p>
 
-        <img src="@/assets/1/bri.png" alt="Bank Logo" class="h-10" />
+        <img src="@/assets/1/bca.png" alt="Bank Logo" class="h-10" />
         <p class="text-sm font-medium text-gray-800 dark:text-white">
           Rek: <span class="font-bold">7680786784</span>
         </p>
@@ -222,7 +222,7 @@ const handleFileUpload = (e) => {
 const nominalFinal = computed(() => {
   const base = Math.round(detailStore.data.jumlah * 16000)
   const unik = Number(detailStore.data.kode_unik) || 0
-  return base + unik
+  return base
 })
 
 const kirimBukti = async () => {
