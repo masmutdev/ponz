@@ -51,13 +51,44 @@
           Rp. {{ nominalFinal.toLocaleString('id-ID') }}
         </p>
 
-        <img src="@/assets/1/bca.png" alt="Bank Logo" class="h-10" />
-        <p class="text-sm font-medium text-gray-800 dark:text-white">
-          Rek: <span class="font-bold">7680786784</span>
-        </p>
-        <p class="text-sm font-medium text-gray-800 dark:text-white">
-          Nama: <span class="font-bold">MATHANE</span>
-        </p>
+        <div class="space-y-2 w-full">
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Bank</label>
+          <input
+            type="text"
+            value="BCA"
+            disabled
+            class="w-full p-2 pr-10 border rounded-md focus:outline-none focus:ring focus:border-blue-500 bg-white text-black dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
+          />
+        </div>
+
+        <div class="space-y-2 relative w-full">
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300"
+            >Nomor Rekening</label
+          >
+          <input
+            required
+            type="number"
+            disabled
+            value="7680786784"
+            class="w-full p-2 pr-10 border rounded-md focus:outline-none focus:ring focus:border-blue-500 bg-white text-black dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
+          />
+          <IconCopy
+            class="absolute right-3 top-9 w-5 h-5 text-white dark:text-white cursor-pointer"
+            @click="copyRekening"
+          />
+        </div>
+
+        <div class="space-y-2 w-full">
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300"
+            >Nama Pemilik</label
+          >
+          <input
+            type="text"
+            value="MATHANE"
+            disabled
+            class="w-full p-2 pr-10 border rounded-md focus:outline-none focus:ring focus:border-blue-500 bg-white text-black dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
+          />
+        </div>
       </div>
 
       <!-- Upload Bukti Pembayaran -->
@@ -145,12 +176,18 @@ import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { useUserDetailDeposit } from '@/stores/userDetailDeposit'
 import { useUserKirimBukti } from '@/stores/userKirimBukti'
+import { IconCopy } from '@tabler/icons-vue'
 
 import { IconCheck, IconX, IconClock, IconAlertTriangle, IconUpload } from '@tabler/icons-vue'
 import Alerts from '@/components/ui/walletpay/Alerts.vue'
 import { useRouter } from 'vue-router'
 const router = useRouter()
 
+const copyRekening = () => {
+  navigator.clipboard.writeText('7680786784').then(() => {
+    alert('Nomor rekening disalin!')
+  })
+}
 const alertMessage = ref('')
 const alertType = ref('success')
 const showAlert = ref(false)
