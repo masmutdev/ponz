@@ -47,6 +47,6 @@ onMounted(() => {
 const bonus = computed(() => bonusStore.data)
 
 const formatUSD = (angka) => {
-  return `$${(angka / 16000).toFixed(2)}`
+  return `$${(angka / 16000).toFixed(5)}`
 }
 </script>
