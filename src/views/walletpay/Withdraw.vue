@@ -195,7 +195,7 @@ onMounted(() => {
 })
 
 const peraturan = [
-  'Minimal Penarikan: $10.00 (setara dengan Rp 170.000)',
+  'Minimal Penarikan: $5.00 (setara dengan Rp 80.000)',
   'Biaya Penarikan E-wallet: 0% dari total penarikan',
   'Biaya Penarikan Bank: 5% dari total penarikan',
 ]
