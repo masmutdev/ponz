@@ -219,7 +219,7 @@ import logo from '@/assets/1/logo.png'
 import qr from '@/assets/1/qr-code.png'
 import { ref, onMounted } from 'vue'
 import { useUserDashboard } from '@/stores/userDashboard'
-import pengumumanImg from '@/assets/1/pengumuman.jpeg'
+import pengumumanImg from '@/assets/1/pengumuman2.jpeg'
 import { IconX } from '@tabler/icons-vue'
 
 const dashboard = useUserDashboard()
