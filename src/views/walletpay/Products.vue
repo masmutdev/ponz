@@ -1,128 +1,71 @@
 <template>
   <div class="max-w-md mx-auto mt-2 space-y-6 px-4">
-    <!-- Informasi VIP -->
-    <div class="bg-blue-100 dark:bg-gray-800 p-4 rounded-lg shadow space-y-2 text-sm">
-      <h3 class="text-md font-semibold text-gray-800 dark:text-white">📣 Program VIP Staking</h3>
-      <ul class="text-gray-700 dark:text-gray-300 space-y-1">
-        <li>VIP-1 → 1.0% /hari</li>
-        <li>VIP-2 → 2.5% /hari</li>
-        <li>VIP-3 → 4.5% /hari</li>
-        <li>VIP-4 → 6.5% /hari</li>
-      </ul>
-      <p class="mt-2 text-xs text-gray-600 dark:text-gray-400">Minimum $5 — Maksimum $150</p>
-    </div>
-
-    <!-- Card koin -->
     <div
-      v-for="coin in coins"
-      :key="coin.id"
-      class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow space-y-3"
+      v-for="item in investments"
+      :key="item.kode_produk"
+      class="dark:bg-gray-800 bg-white text-white rounded-xl overflow-hidden shadow p-3"
     >
-      <div class="flex items-center gap-3">
-        <img :src="coin.icon" :alt="coin.name" class="h-30 w-40 rounded-lg" />
-        <div>
-          <p class="font-semibold text-gray-800 dark:text-white">
-            {{ coin.name }}
-          </p>
-          <p
-            class="text-sm font-semibold"
-            :class="coin.change.startsWith('+') ? 'text-green-500' : 'text-red-500'"
-          >
-            Quote Change: {{ coin.change }}
-          </p>
-          <p class="text-sm text-gray-600 dark:text-gray-400">Volume: {{ coin.volume }}</p>
-        </div>
-      </div>
-
-      <button
-        class="w-full mt-2 bg-indigo-600 text-white py-2 rounded hover:bg-indigo-700 transition"
-        @click="openModal(coin)"
-      >
-        Mulai Staking {{ coin.symbol }}
-      </button>
-    </div>
-
-    <!-- Modal -->
-    <transition name="modal">
-      <teleport to="body">
-        <div
-          v-if="modalOpen"
-          class="fixed inset-0 bg-black/30 bg-opacity-50 flex items-center justify-center z-50"
-        >
-          <div class="bg-white dark:bg-gray-800 rounded-lg w-11/12 max-w-md p-6 relative z-50">
-            <button
-              class="absolute top-3 right-3 text-gray-600 dark:text-gray-300"
-              @click="closeModal"
-            >
-              ✕
-            </button>
-
-            <h2 class="text-lg font-semibold text-gray-800 dark:text-white mb-4">
-              Staking {{ selected.coin.symbol }}
-            </h2>
-
-            <label class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300"
-              >Durasi</label
-            >
-            <select
-              v-model="form.duration"
-              class="w-full p-2 mb-4 border rounded-md bg-white dark:bg-gray-700 dark:text-white"
-            >
-              <option v-for="d in durations" :key="d" :value="d">{{ d }} Hari</option>
-            </select>
-            <span
-              class="absolute right-12 top-[105px] inline-block bg-yellow-100 text-yellow-800 text-xs font-bold px-6 py-1 rounded-full dark:bg-blue-700 dark:text-yellow-300"
-            >
-              VIP {{ vipLevel }}
-            </span>
-
-            <label class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300"
-              >Jumlah Investasi</label
-            >
-            <input
-              type="number"
-              v-model.number="form.amount"
-              class="w-full p-2 mb-2 border rounded-md bg-white dark:bg-gray-700 dark:text-white"
-              placeholder="Minimum 5"
-            />
-            <div class="flex flex-row justify-between items-center mb-4">
-              <span class="text-xs text-red-500 dark:text-red-400" v-if="!canSubmit"
-                >Minimal $5</span
-              >
-              <p class="text-xs text-gray-500 dark:text-gray-400">Saldo tersedia: ${{ saldo }}</p>
-            </div>
-
-            <p class="font-medium text-gray-800 dark:text-white mb-2">Simulasi Pendapatan:</p>
-
-            <div class="flex flex-col justify-center text-sm text-gray-800 dark:text-white">
-              <div class="flex flex-row justify-between border-b border-gray-200 py-3">
-                <span class="font-semibold">Profit Per Hari</span>
-                <span>${{ dailyProfit.toFixed(2) }}</span>
-              </div>
-              <div class="flex flex-row justify-between border-b border-gray-200 py-3">
-                <span class="font-semibold">Durasi</span>
-                <span>{{ form.duration }} Hari</span>
-              </div>
-              <div class="flex flex-row justify-between border-b border-gray-200 py-3">
-                <span class="font-semibold">Total Pendapatan</span>
-                <span>${{ totalPendapatan.toFixed(2) }}</span>
-              </div>
-            </div>
-
-            <button
-              class="w-full mt-4 text-white py-2 rounded transition flex items-center justify-center gap-2"
-              :class="[
-                canSubmit ? 'bg-blue-600 hover:bg-blue-700' : 'bg-gray-900 cursor-not-allowed',
-              ]"
-              :disabled="!canSubmit"
-              @click="confirmStaking"
-            >
-              <span>Konfirmasi Staking</span>
-            </button>
+      <!-- Header -->
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <img
+            :src="gambarMap[item.gambar_produk]"
+            :alt="item.nama_produk"
+            class="h-16 w-16 rounded object-cover"
+          />
+          <div>
+            <p class="text-sm font-semibold">{{ item.nama_produk }}</p>
+            <p class="text-sm text-[#f9a825] font-bold">${{ item.harga }}</p>
           </div>
         </div>
-      </teleport>
-    </transition>
+        <button
+          :disabled="cekPesanan.isSudahDipesan(item.kode_produk)"
+          @click="confirmStaking(item)"
+          class="bg-gradient-to-r from-gray-300 to-blue-300 text-black px-3 py-1 rounded text-sm font-semibold flex items-center justify-center gap-2"
+          :class="{
+            'opacity-50 cursor-not-allowed': cekPesanan.isSudahDipesan(item.kode_produk),
+            'cursor-pointer': !cekPesanan.isSudahDipesan(item.kode_produk),
+          }"
+        >
+          <template v-if="cekPesanan.isSudahDipesan(item.kode_produk)">
+            <svg
+              class="animate-spin h-4 w-4 text-black"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                class="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                stroke-width="4"
+              />
+              <path
+                class="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+              />
+            </svg>
+            Progress
+          </template>
+          <template v-else> Investasi </template>
+        </button>
+      </div>
+
+      <!-- Info -->
+      <div class="flex justify-between text-sm text-gray-200 mt-3 border-t border-gray-600 pt-2">
+        <div>
+          <p class="text-xs">Periode Validitas</p>
+          <p class="font-medium">{{ item.durasi }} hari</p>
+        </div>
+        <div>
+          <p class="text-xs">Penghasilan</p>
+          <p class="font-medium">${{ item.profit_perhari }} / 24 jam</p>
+        </div>
+      </div>
+    </div>
 
     <Alerts
       :message="alertMessage"
@@ -134,16 +77,26 @@
 </template>
 
 <script setup>
-import { reactive, ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
+import Alerts from '@/components/ui/walletpay/Alerts.vue'
+import { userSimpanPesanan2 } from '@/stores/userSimpanPesanan2'
+import api from '@/lib/axios'
 import nvidia from '@/assets/1/nvidia.jpeg'
 import amd from '@/assets/1/amd.jpeg'
 import docn from '@/assets/1/docn.jpeg'
 import intc from '@/assets/1/intc.jpeg'
+import { useCekPesanan2 } from '@/stores/CekPesanan2'
+const cekPesanan = useCekPesanan2()
 
-import { useUserActiveDownline } from '@/stores/userActiveDownline'
-import Alerts from '@/components/ui/walletpay/Alerts.vue'
-import { userSimpanPesanan } from '@/stores/userSimpanPesanan'
-const pesananStore = userSimpanPesanan()
+// Mapping gambar
+const gambarMap = {
+  'nvidia.jpeg': nvidia,
+  'amd.jpeg': amd,
+  'docn.jpeg': docn,
+  'intc.jpeg': intc,
+}
+
+const pesananStore = userSimpanPesanan2()
 
 const alertMessage = ref('')
 const alertType = ref('success')
@@ -155,93 +108,58 @@ const showInfo = (msg, type = 'success') => {
   showAlert.value = true
 }
 
-const saldo = ref(1000) // contoh saldo
+// Data produk investasi dari backend
+const investments = ref([])
 
-const coins = reactive([
-  { id: 6, name: 'NVIDIA', symbol: 'NVIDIA', icon: nvidia, volume: '$67.89B', change: '+0.02%' },
-  { id: 7, name: 'AMD', symbol: 'AMD', icon: amd, volume: '$45.31B', change: '+2.14%' },
-  { id: 8, name: 'DOCN', symbol: 'DOCN', icon: docn, volume: '$23.42B', change: '+1.82%' },
-  { id: 9, name: 'INTC', symbol: 'INTC', icon: intc, volume: '$3.48B', change: '-0.34%' },
-])
-
-const userActive = useUserActiveDownline()
+const fetchInvestments = () => {
+  investments.value = [
+    {
+      kode_produk: 'NVIDIA',
+      nama_produk: 'NVIDIA',
+      harga: 5,
+      durasi: 20,
+      gambar_produk: 'nvidia.jpeg',
+      profit_perhari: 0.5,
+    },
+    {
+      kode_produk: 'AMD',
+      nama_produk: 'AMD',
+      harga: 10,
+      durasi: 20,
+      gambar_produk: 'amd.jpeg',
+      profit_perhari: 1.0,
+    },
+    {
+      kode_produk: 'DOCN',
+      nama_produk: 'DOCN',
+      harga: 20,
+      durasi: 20,
+      gambar_produk: 'docn.jpeg',
+      profit_perhari: 1.4,
+    },
+    {
+      kode_produk: 'INTC',
+      nama_produk: 'INTC',
+      harga: 30,
+      durasi: 20,
+      gambar_produk: 'intc.jpeg',
+      profit_perhari: 2.2,
+    },
+  ]
+}
 
 onMounted(() => {
-  userActive.fetchActiveDownline()
+  fetchInvestments()
+  cekPesanan.fetchPesanan()
 })
 
-const vipLevel = computed(() => userActive.vip)
-
-const vipRateMap = {
-  1: 0.01,
-  2: 0.025,
-  3: 0.045,
-  4: 0.065,
-}
-
-const durations = computed(() => {
-  const map = {
-    1: [15],
-    2: [30],
-    3: [90],
-    4: [120],
-  }
-  return map[vipLevel.value] || []
-})
-
-const modalOpen = ref(false)
-const selected = reactive({ coin: null, id: null })
-const form = reactive({ duration: 15, amount: null })
-
-const openModal = (coin) => {
-  selected.coin = coin
-  selected.id = coin.id
-  form.duration = durations.value[0] // <- ambil durasi sesuai VIP
-  form.amount = null
-  modalOpen.value = true
-}
-
-const closeModal = () => (modalOpen.value = false)
-
-const canSubmit = computed(() => form.amount >= 5 && form.amount <= saldo.value)
-
-const dailyProfit = computed(() => {
-  const rate = vipRateMap[vipLevel.value] || 0
-  return form.amount ? form.amount * rate : 0
-})
-
-const totalPendapatan = computed(() => {
-  return form.amount ? dailyProfit.value * form.duration + form.amount : 0
-})
-const dailyRates = { 15: 0.01, 30: 0.025, 90: 0.045, 120: 0.065 }
-
-const estimated = computed(() => {
-  const rate = dailyRates[form.duration] || 0
-  return form.amount ? form.amount * rate * form.duration : 0
-})
-
-const confirmStaking = async () => {
-  await pesananStore.simpanPesanan({
-    kode_produk: selected.coin.symbol,
-    harga: form.amount,
-  })
+const confirmStaking = async (item) => {
+  await pesananStore.simpanPesanan({ kode_produk: item.kode_produk })
 
   if (pesananStore.error) {
     showInfo(pesananStore.error, 'error')
   } else {
     showInfo(pesananStore.successMessage, 'success')
-    closeModal()
   }
 }
 </script>
-
-<style scoped>
-.modal-enter-active,
-.modal-leave-active {
-  transition: opacity 0.2s ease;
-}
-.modal-enter-from,
-.modal-leave-to {
-  opacity: 0;
-}
-</style>
