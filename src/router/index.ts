@@ -20,6 +20,7 @@ import Kebijakan from '@/views/walletpay/Kebijakan.vue'
 import Downline from '@/views/walletpay/Downline.vue'
 import ActiveDownline from '@/views/walletpay/ActiveDownline.vue'
 import DetailDeposit from '../views/walletpay/DetailDeposit.vue'
+import Products from '../views/walletpay/Products.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -152,6 +153,12 @@ const router = createRouter({
       path: '/active-downline',
       name: 'active-downline',
       component: ActiveDownline,
+      meta: { requiresAuth: true },
+    },
+    {
+      path: '/products',
+      name: 'products',
+      component: Products,
       meta: { requiresAuth: true },
     },
     {

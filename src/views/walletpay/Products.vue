@@ -19,10 +19,10 @@
       class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow space-y-3"
     >
       <div class="flex items-center gap-3">
-        <img :src="coin.icon" :alt="coin.name" class="h-8 w-8 rounded-full" />
+        <img :src="coin.icon" :alt="coin.name" class="h-30 w-40 rounded-lg" />
         <div>
           <p class="font-semibold text-gray-800 dark:text-white">
-            {{ coin.name }} ({{ coin.symbol }})
+            {{ coin.name }}
           </p>
           <p
             class="text-sm font-semibold"
@@ -135,11 +135,11 @@
 
 <script setup>
 import { reactive, ref, computed, onMounted } from 'vue'
-import usdt from '@/assets/1/usdt.png'
-import btc from '@/assets/1/btc.png'
-import eth from '@/assets/1/eth.png'
-import sol from '@/assets/1/sol.png'
-import doge from '@/assets/1/doge.png'
+import nvidia from '@/assets/1/nvidia.jpeg'
+import amd from '@/assets/1/amd.jpeg'
+import docn from '@/assets/1/docn.jpeg'
+import intc from '@/assets/1/intc.jpeg'
+
 import { useUserActiveDownline } from '@/stores/userActiveDownline'
 import Alerts from '@/components/ui/walletpay/Alerts.vue'
 import { userSimpanPesanan } from '@/stores/userSimpanPesanan'
@@ -158,11 +158,10 @@ const showInfo = (msg, type = 'success') => {
 const saldo = ref(1000) // contoh saldo
 
 const coins = reactive([
-  { id: 1, name: 'Tether', symbol: 'USDT', icon: usdt, volume: '$67.89B', change: '+0.02%' },
-  { id: 2, name: 'Bitcoin', symbol: 'BTC', icon: btc, volume: '$45.31B', change: '+2.14%' },
-  { id: 3, name: 'Ethereum', symbol: 'ETH', icon: eth, volume: '$23.42B', change: '+1.82%' },
-  { id: 4, name: 'Solana', symbol: 'SOL', icon: sol, volume: '$3.48B', change: '-0.34%' },
-  { id: 5, name: 'Dogecoin', symbol: 'DOGE', icon: doge, volume: '$1.81B', change: '+0.95%' },
+  { id: 6, name: 'NVIDIA', symbol: 'NVIDIA', icon: nvidia, volume: '$67.89B', change: '+0.02%' },
+  { id: 7, name: 'AMD', symbol: 'AMD', icon: amd, volume: '$45.31B', change: '+2.14%' },
+  { id: 8, name: 'DOCN', symbol: 'DOCN', icon: docn, volume: '$23.42B', change: '+1.82%' },
+  { id: 9, name: 'INTC', symbol: 'INTC', icon: intc, volume: '$3.48B', change: '-0.34%' },
 ])
 
 const userActive = useUserActiveDownline()

@@ -12,7 +12,7 @@
       </RouterLink>
 
       <RouterLink
-        to="/crypto"
+        to="/products"
         class="flex flex-col items-center text-gray-500 dark:text-white hover:text-blue-500"
       >
         <IconCurrencyBitcoin class="w-6 h-6" />
