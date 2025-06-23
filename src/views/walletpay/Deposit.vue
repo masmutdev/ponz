@@ -89,8 +89,8 @@ const setNominal = (amount) => {
 const submitDeposit = async () => {
   const jumlahUSD = Number(nominal.value)
 
-  if (!jumlahUSD || jumlahUSD < 15) {
-    showInfo('Minimal deposit adalah $15', 'error')
+  if (!jumlahUSD || jumlahUSD < 5) {
+    showInfo('Minimal deposit adalah 15', 'error')
     return
   }
 
@@ -121,7 +121,7 @@ const formatUSD = (angka) => {
 }
 
 const panduan = [
-  'Jumlah minimal deposit adalah: $15.00',
+  'Jumlah minimal deposit adalah: $5.00',
   'Jika mengalami masalah deposit yang tidak masuk, silakan hubungi customer service.',
 ]
 </script>
