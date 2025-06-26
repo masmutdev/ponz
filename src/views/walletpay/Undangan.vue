@@ -88,7 +88,7 @@ onMounted(() => {
 
 const referralCode = computed(() => undanganStore.reff)
 const fullReferralLink = computed(
-  () => `https://service-walletpay.info/register?reff=${referralCode.value}`,
+  () => `https://service-walletpaybusiness101.cloud/register?reff=${referralCode.value}`,
 )
 
 const qrSrc = ref('')
