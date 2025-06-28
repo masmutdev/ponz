@@ -217,11 +217,11 @@ let interval: any = null
 
 const acakData = () => {
   dataCoin.value = dataCoin.value.map((coin) => {
-    const angka = (Math.random() * 5).toFixed(2)
+    const angka = parseFloat((Math.random() * 5).toFixed(2))
     const naik = Math.random() > 0.5
     return {
       ...coin,
-      persen: naik ? angka : `-${angka}`,
+      persen: naik ? angka : -angka,
       warna: naik ? 'text-green-600' : 'text-red-600',
     }
   })
