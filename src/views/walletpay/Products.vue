@@ -14,7 +14,7 @@
             class="h-16 w-16 rounded object-cover"
           />
           <div>
-            <p class="text-sm font-semibold">{{ item.nama_produk }}</p>
+            <p class="text-sm text-blue-950 font-semibold">{{ item.nama_produk }}</p>
             <p class="text-sm text-[#f9a825] font-bold">${{ item.harga }}</p>
           </div>
         </div>
@@ -55,7 +55,7 @@
       </div>
 
       <!-- Info -->
-      <div class="flex justify-between text-sm text-gray-200 mt-3 border-t border-gray-600 pt-2">
+      <div class="flex justify-between text-sm text-blue-950 mt-3 border-t border-gray-600 pt-2">
         <div>
           <p class="text-xs">Periode Validitas</p>
           <p class="font-medium">{{ item.durasi }} hari</p>
