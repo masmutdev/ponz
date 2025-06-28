@@ -10,21 +10,21 @@
         <div class="grid grid-cols-3 gap-2 text-center">
           <div>
             <p class="font-bold text-lg text-blue-900">{{ Number(totalTeam.value) }}</p>
-            <p class="text-xs text-gray-600">{{ totalTeam.label }}</p>
+            <p class="text-xs text-gray-600 mb-3">{{ totalTeam.label }}</p>
             <p class="font-bold text-sm text-green-600">{{ totalStaking.value }}</p>
-            <p class="text-xs text-gray-600">{{ totalStaking.label }}</p>
+            <p class="text-xs text-gray-600 mb-3">{{ totalStaking.label }}</p>
           </div>
           <div>
             <p class="font-bold text-lg text-blue-900">{{ Number(totalActive.value) }}</p>
-            <p class="text-xs text-gray-600">{{ totalActive.label }}</p>
+            <p class="text-xs text-gray-600 mb-3">{{ totalActive.label }}</p>
             <p class="font-bold text-sm text-green-600">{{ totalDeposit.value }}</p>
-            <p class="text-xs text-gray-600">{{ totalDeposit.label }}</p>
+            <p class="text-xs text-gray-600 mb-3">{{ totalDeposit.label }}</p>
           </div>
           <div>
             <p class="font-bold text-lg text-green-600">{{ totalDeposit.value }}</p>
-            <p class="text-xs text-gray-600">{{ totalDeposit.label }}</p>
+            <p class="text-xs text-gray-600 mb-3">{{ totalDeposit.label }}</p>
             <p class="font-bold text-sm text-green-600">{{ totalWithdraw.value }}</p>
-            <p class="text-xs text-gray-600">{{ totalWithdraw.label }}</p>
+            <p class="text-xs text-gray-600 mb-3">{{ totalWithdraw.label }}</p>
           </div>
         </div>
 
