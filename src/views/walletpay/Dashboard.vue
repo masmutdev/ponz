@@ -60,7 +60,7 @@
       <span class="text-sm font-semibold text-blue-900 dark:text-white">Withdraw</span>
     </RouterLink>
     <RouterLink
-      to="/transaksi"
+      to="/riwayat-transaksi"
       class="flex flex-col items-center p-2 w-20 h-20 rounded-full bg-gray-300 dark:bg-gray-800 shadow-md hover:shadow-lg transition"
     >
       <IconReportMoney class="w-7 h-7 mb-2 text-green-600" />
@@ -75,7 +75,7 @@
     </RouterLink>
   </div>
 
-  <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-4">
+  <div class="grid grid-cols-3 gap-4 mt-4">
     <div
       v-for="coin in dataCoin"
       :key="coin.kode"
@@ -210,7 +210,6 @@ const dataCoin = ref([
   { kode: 'BTC', warna: 'text-green-600', persen: 0 },
   { kode: 'ETH', warna: 'text-red-600', persen: 0 },
   { kode: 'SOL', warna: 'text-red-600', persen: 0 },
-  { kode: 'DOGE', warna: 'text-red-600', persen: 0 },
 ])
 
 let interval: any = null
