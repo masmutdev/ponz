@@ -7,6 +7,7 @@ type DownlineUser = {
   nama: string
   hp: string
   reff: string
+  created_at: string
   upline_reff: string
   total_deposit: number
   total_withdraw: number
