@@ -27,6 +27,17 @@
           placeholder="Password"
           type="password"
         />
+        <div class="my-3 mt-1 text-center text-xs text-[#0B1E4F]">
+          <label class="flex items-center justify-center gap-2">
+            <input type="checkbox" v-model="isChecked" class="accent-blue-500" />
+            <span>
+              Dengan masuk, kamu menyetujui
+              <button @click="showModal = 'privacy'" class="underline font-semibold">
+                Kebijakan Privasi
+              </button>
+            </span>
+          </label>
+        </div>
         <button
           class="w-full rounded-full py-2 text-sm font-bold text-[#0B1E4F] bg-[#9CC3FF] cursor-pointer"
           type="submit"
@@ -34,13 +45,6 @@
           Masuk Akun
         </button>
       </form>
-
-      <p class="mt-3 text-center text-xs text-[#0B1E4F]">
-        Dengan masuk, kamu menyetujui
-        <button @click="showModal = 'privacy'" class="underline font-semibold">
-          Kebijakan Privasi
-        </button>
-      </p>
       <p class="mt-3 text-center text-xs text-[#0B1E4F]">
         Belum Memiliki Akun?
         <RouterLink to="/register" class="font-bold"> Register </RouterLink>
@@ -559,7 +563,14 @@ const hp = ref('')
 const password = ref('')
 const router = useRouter()
 
+const isChecked = ref(false)
+
 const login = async () => {
+  if (!isChecked.value) {
+    showNotif('Anda harus menyetujui Kebijakan Privasi terlebih dahulu.', 'error')
+    return
+  }
+
   try {
     const res = await api.post('/login/user', { hp: hp.value, password: password.value })
     localStorage.setItem('token', res.data.token)

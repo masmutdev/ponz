@@ -61,6 +61,17 @@
             type="text"
           />
         </div>
+        <div class="my-3 mt-1 text-center text-xs text-[#0B1E4F]">
+          <label class="flex items-center justify-center gap-2">
+            <input type="checkbox" v-model="isChecked" class="accent-blue-500" />
+            <span>
+              Dengan register, kamu menyetujui
+              <button @click="showModal = 'privacy'" class="underline font-semibold">
+                Kebijakan Privasi
+              </button>
+            </span>
+          </label>
+        </div>
         <button
           class="w-full rounded-full py-2 text-sm font-bold text-[#0B1E4F] bg-[#9CC3FF] cursor-pointer"
           type="submit"
@@ -68,12 +79,6 @@
           Mulai Registrasi
         </button>
       </form>
-      <p class="mt-3 text-center text-xs text-[#0B1E4F]">
-        Dengan membuat akun, kamu menyetujui
-        <button @click="showModal = 'privacy'" class="underline font-semibold">
-          Kebijakan Privasi
-        </button>
-      </p>
       <p class="mt-3 text-center text-xs text-[#0B1E4F]">
         Sudah Memiliki Akun?
         <RouterLink to="/login" class="font-bold"> Login </RouterLink>
@@ -655,7 +660,14 @@ const showNotif = (msg: string, type: 'success' | 'error' = 'error') => {
   showAlert.value = true
 }
 
+const isChecked = ref(false)
+
 const register = async () => {
+  if (!isChecked.value) {
+    showNotif('Anda harus menyetujui Kebijakan Privasi terlebih dahulu.', 'error')
+    return
+  }
+
   if (captchaInput.value.trim().toUpperCase() !== captchaCode.value) {
     return showNotif('Captcha salah')
   }
