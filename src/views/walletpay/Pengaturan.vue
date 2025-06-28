@@ -27,7 +27,7 @@
     </div>
   </div>
 
-  <div class="relative mb-12">
+  <div class="relative mb-5">
     <div class="grid grid-cols-3 gap-6 text-center mt-4">
       <div>
         <p class="font-bold text-black">{{ formatUSD(pengaturan.totalDeposit) }}</p>
@@ -41,13 +41,8 @@
         <p class="font-bold text-black">{{ formatUSD(pengaturan.totalBonus) }}</p>
         <p class="text-xs text-gray-700">Total Withdraw</p>
       </div>
-      <div>
-        <p class="font-bold text-black">{{ formatUSD(pengaturan.totalBonus) }}</p>
-        <p class="text-xs text-gray-700">Total Withdraw</p>
-      </div>
     </div>
-
-    <VIPBar class="my-5 absolute right-0 top-[40px] w-[300px] h-[50px]" />
+    <VIPBar class="my-5 w-full" />
   </div>
 
   <div class="max-w-md mx-auto mt-2 space-y-6 rounded-lg border p-2">
@@ -55,21 +50,6 @@
       <h3 class="text-sm font-semibold text-gray-600 dark:text-gray-300 px-2 my-4">Menu Saya</h3>
       <div
         v-for="item in menuSaya"
-        :key="item.label"
-        class="flex my-4 items-center justify-between p-4 rounded-lg shadow bg-blue-100 dark:bg-gray-800 text-gray-800 dark:text-white"
-      >
-        <router-link :to="item.to" class="flex items-center gap-3 w-full">
-          <component :is="item.icon" class="w-5 h-5" />
-          <span class="flex-1 text-sm font-medium">{{ item.label }}</span>
-          <IconChevronRight class="w-4 h-4" />
-        </router-link>
-      </div>
-    </div>
-
-    <div class="space-y-1">
-      <h3 class="text-sm font-semibold text-gray-600 dark:text-gray-300 px-2 my-4">Informasi</h3>
-      <div
-        v-for="item in informasi"
         :key="item.label"
         class="flex my-4 items-center justify-between p-4 rounded-lg shadow bg-blue-100 dark:bg-gray-800 text-gray-800 dark:text-white"
       >
@@ -136,14 +116,8 @@ const menuSaya = [
   { label: 'Keamanan', to: '/keamanan', icon: IconLock },
   { label: 'Data Penarikan', to: '/data-penarikan', icon: IconBuildingBank },
   { label: 'Riwayat Transaksi', to: '/riwayat-transaksi', icon: IconHistory },
-  { label: 'Riwayat Staking', to: '/riwayat-staking', icon: IconCoin },
+  { label: 'Riwayat Investasi Dan Staking', to: '/riwayat-staking', icon: IconCoin },
   { label: 'Bonus dan Profit', to: '/bonus-profit', icon: IconGift },
   { label: 'Tautan Undangan', to: '/undangan', icon: IconLink },
-]
-
-const informasi = [
-  { label: 'Tentang Kami', to: '/tentang-kami', icon: IconInfoCircle },
-  { label: 'FAQ', to: '/faq', icon: IconHelpCircle },
-  { label: 'Syarat dan Kebijakan', to: '/syarat-dan-kebijakan', icon: IconFileDescription },
 ]
 </script>

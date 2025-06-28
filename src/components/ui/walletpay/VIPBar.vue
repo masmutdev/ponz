@@ -20,6 +20,16 @@
     <div class="text-xs text-gray-600 dark:text-gray-300 text-center">
       {{ store.totalActiveUser }} dari {{ targetMap[store.vip] }} anggota aktif
     </div>
+
+    <!-- Tombol Arahkan ke /undangan -->
+    <div class="flex justify-center">
+      <RouterLink
+        to="/undangan"
+        class="mt-2 inline-block bg-white dark:bg-gray-700 text-blue-800 dark:text-white px-4 py-2 rounded-lg shadow hover:bg-blue-100 dark:hover:bg-gray-600 transition"
+      >
+        Upgrade
+      </RouterLink>
+    </div>
   </div>
 </template>
 <script setup>
