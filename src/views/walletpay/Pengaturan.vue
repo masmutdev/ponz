@@ -116,7 +116,7 @@ const menuSaya = [
   { label: 'Keamanan', to: '/keamanan', icon: IconLock },
   { label: 'Data Penarikan', to: '/data-penarikan', icon: IconBuildingBank },
   { label: 'Riwayat Transaksi', to: '/riwayat-transaksi', icon: IconHistory },
-  { label: 'Riwayat Investasi Dan Staking', to: '/riwayat-staking', icon: IconCoin },
+  { label: 'Riwayat Investasi Dan Staking', to: '/rekaman-transaksi', icon: IconCoin },
   { label: 'Bonus dan Profit', to: '/bonus-profit', icon: IconGift },
   { label: 'Tautan Undangan', to: '/undangan', icon: IconLink },
 ]

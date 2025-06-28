@@ -12,6 +12,8 @@ export const useRiwayatStaking = defineStore('riwayatStaking', {
       nama_produk: string
       profit_perhari: number
       total_profit: number
+      harga: number
+      durasi: number
       created_at: string
       status: number
     }>,
@@ -22,7 +24,16 @@ export const useRiwayatStaking = defineStore('riwayatStaking', {
       this.error = ''
       try {
         const res = await api.get('/data-pesanan')
-        this.data = res.data.data
+
+        // 🧼 Optional: ensure numeric conversion for harga & durasi if needed
+        this.data = res.data.data.map((item: any) => ({
+          ...item,
+          harga: parseFloat(item.harga),
+          durasi: parseInt(item.durasi),
+          profit_perhari: parseFloat(item.profit_perhari),
+          total_profit: parseFloat(item.total_profit),
+          status: parseInt(item.status),
+        }))
       } catch (err: any) {
         this.error = err.response?.data?.message || 'Gagal memuat riwayat'
       } finally {

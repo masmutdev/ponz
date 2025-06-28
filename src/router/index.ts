@@ -96,8 +96,8 @@ const router = createRouter({
       meta: { requiresAuth: true },
     },
     {
-      path: '/riwayat-staking',
-      name: 'riwayat-staking',
+      path: '/rekaman-transaksi',
+      name: 'rekaman-transaksi',
       component: RiwayatStaking,
       meta: { requiresAuth: true },
     },
