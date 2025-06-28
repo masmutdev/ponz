@@ -97,11 +97,17 @@
       :key="coin.kode"
       class="w-full h-20 rounded-lg border border-gray-400 flex flex-col justify-center items-center p-2"
     >
-      <p
-        :class="['font-semibold text-sm', coin.kode === 'BTC' ? 'text-green-800' : 'text-blue-900']"
-      >
-        {{ coin.kode }}
-      </p>
+      <div class="flex items-center gap-1">
+        <img :src="coin.icon" alt="icon" class="h-4 w-4 rounded-full" />
+        <p
+          :class="[
+            'font-semibold text-sm',
+            coin.kode === 'BTC' ? 'text-green-800' : 'text-blue-900',
+          ]"
+        >
+          {{ coin.kode }}
+        </p>
+      </div>
       <p :class="['font-extrabold text-xl mt-1', coin.warna]">{{ coin.persen }}%</p>
     </div>
   </div>
@@ -122,57 +128,36 @@
         </tr>
       </thead>
       <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
-        <tr class="hover:bg-gray-100 dark:hover:bg-gray-800">
+        <tr
+          v-for="coin in dataVolume"
+          :key="coin.kode"
+          class="hover:bg-gray-100 dark:hover:bg-gray-800"
+        >
           <td class="px-6 py-4 text-sm text-gray-900 dark:text-white">
             <div class="flex items-center gap-2">
-              <img src="@/assets/1/btc.png" alt="BTC" class="h-5 w-5" />
+              <img :src="coin.icon" :alt="coin.kode" class="h-5 w-5 rounded-full" />
               <div>
-                <div>Bitcoin (BTC)</div>
-                <div class="text-xs text-gray-500 dark:text-gray-400">$45.31B</div>
+                <div>{{ coin.nama }} ({{ coin.kode }})</div>
+                <div class="text-xs text-gray-500 dark:text-gray-400">
+                  ${{ coin.volume.toFixed(2) }}B
+                </div>
               </div>
             </div>
           </td>
-          <td class="px-6 py-4 text-sm text-gray-700 text-center dark:text-gray-300">$46,727.30</td>
-          <td class="px-6 py-4 text-sm text-green-500 text-center font-semibold">+2.14%</td>
-        </tr>
-        <tr class="hover:bg-gray-100 dark:hover:bg-gray-800">
-          <td class="px-6 py-4 text-sm text-gray-900 dark:text-white">
-            <div class="flex items-center gap-2">
-              <img src="@/assets/1/eth.png" alt="ETH" class="h-5 w-5 rounded-full" />
-              <div>
-                <div>Ethereum (ETH)</div>
-                <div class="text-xs text-gray-500 dark:text-gray-400">$23.42B</div>
-              </div>
-            </div>
+          <td class="px-6 py-4 text-sm text-gray-700 text-center dark:text-gray-300">
+            ${{
+              coin.harga.toLocaleString(undefined, {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })
+            }}
           </td>
-          <td class="px-6 py-4 text-sm text-gray-700 text-center dark:text-gray-300">$2,609.30</td>
-          <td class="px-6 py-4 text-sm text-green-500 text-center font-semibold">+1.82%</td>
-        </tr>
-        <tr class="hover:bg-gray-100 dark:hover:bg-gray-800">
-          <td class="px-6 py-4 text-sm text-gray-900 dark:text-white">
-            <div class="flex items-center gap-2">
-              <img src="@/assets/1/sol.png" alt="SOL" class="h-5 w-5 rounded-full" />
-              <div>
-                <div>Solana (SOL)</div>
-                <div class="text-xs text-gray-500 dark:text-gray-400">$3.48B</div>
-              </div>
-            </div>
+          <td
+            class="px-6 py-4 text-sm text-center font-semibold"
+            :class="coin.persen >= 0 ? 'text-green-500' : 'text-red-500'"
+          >
+            {{ coin.persen >= 0 ? '+' : '' }}{{ coin.persen }}%
           </td>
-          <td class="px-6 py-4 text-sm text-gray-700 text-center dark:text-gray-300">$22.11</td>
-          <td class="px-6 py-4 text-sm text-red-500 text-center font-semibold">-0.34%</td>
-        </tr>
-        <tr class="hover:bg-gray-100 dark:hover:bg-gray-800">
-          <td class="px-6 py-4 text-sm text-gray-900 dark:text-white">
-            <div class="flex items-center gap-2">
-              <img src="@/assets/1/doge.png" alt="DOGE" class="h-5 w-5 rounded-full" />
-              <div>
-                <div>Dogecoin (DOGE)</div>
-                <div class="text-xs text-gray-500 dark:text-gray-400">$1.81B</div>
-              </div>
-            </div>
-          </td>
-          <td class="px-6 py-4 text-sm text-gray-700 text-center dark:text-gray-300">$0.22</td>
-          <td class="px-6 py-4 text-sm text-green-500 text-center font-semibold">+0.95%</td>
         </tr>
       </tbody>
     </table>
@@ -205,7 +190,6 @@
 </template>
 
 <script setup lang="ts">
-import serverBg from '@/assets/1/server-room.png'
 import logo from '@/assets/1/logo.png'
 import qr from '@/assets/1/qr-code.png'
 import { ref, onMounted, onUnmounted } from 'vue'
@@ -223,9 +207,67 @@ const dashboard = useUserDashboard()
 const showPengumuman = ref(true)
 
 const dataCoin = ref([
-  { kode: 'BTC', warna: 'text-green-600', persen: 0 },
-  { kode: 'ETH', warna: 'text-red-600', persen: 0 },
-  { kode: 'SOL', warna: 'text-red-600', persen: 0 },
+  {
+    kode: 'BTC',
+    warna: 'text-green-600',
+    persen: 0,
+    icon: new URL('@/assets/1/btc.png', import.meta.url).href,
+  },
+  {
+    kode: 'ETH',
+    warna: 'text-red-600',
+    persen: 0,
+    icon: new URL('@/assets/1/eth.png', import.meta.url).href,
+  },
+  {
+    kode: 'SOL',
+    warna: 'text-red-600',
+    persen: 0,
+    icon: new URL('@/assets/1/sol.png', import.meta.url).href,
+  },
+])
+
+const dataVolume = ref([
+  {
+    kode: 'USDT',
+    nama: 'Tether',
+    icon: new URL('@/assets/1/usdt.png', import.meta.url).href,
+    volume: 28.93,
+    harga: 1.0,
+    persen: 0.01,
+  },
+  {
+    kode: 'BTC',
+    nama: 'Bitcoin',
+    icon: new URL('@/assets/1/btc.png', import.meta.url).href,
+    volume: 45.31,
+    harga: 46727.3,
+    persen: 2.14,
+  },
+  {
+    kode: 'ETH',
+    nama: 'Ethereum',
+    icon: new URL('@/assets/1/eth.png', import.meta.url).href,
+    volume: 23.42,
+    harga: 2609.3,
+    persen: 1.82,
+  },
+  {
+    kode: 'SOL',
+    nama: 'Solana',
+    icon: new URL('@/assets/1/sol.png', import.meta.url).href,
+    volume: 3.48,
+    harga: 22.11,
+    persen: -0.34,
+  },
+  {
+    kode: 'DOGE',
+    nama: 'Dogecoin',
+    icon: new URL('@/assets/1/doge.png', import.meta.url).href,
+    volume: 1.81,
+    harga: 0.22,
+    persen: 0.95,
+  },
 ])
 
 let interval: any = null
@@ -249,6 +291,30 @@ onMounted(() => {
 
 onUnmounted(() => {
   clearInterval(interval)
+})
+
+let intervalVolume: any = null
+
+const acakVolume = () => {
+  dataVolume.value = dataVolume.value.map((coin) => {
+    const change = parseFloat((Math.random() * 0.5).toFixed(2))
+    const naik = Math.random() > 0.5
+    const perubahan = naik ? change : -change
+
+    return {
+      ...coin,
+      harga: parseFloat((coin.harga + perubahan).toFixed(2)),
+      persen: parseFloat((naik ? change : -change).toFixed(2)),
+    }
+  })
+}
+
+onMounted(() => {
+  intervalVolume = setInterval(acakVolume, 3000)
+})
+
+onUnmounted(() => {
+  clearInterval(intervalVolume)
 })
 
 onMounted(() => {
