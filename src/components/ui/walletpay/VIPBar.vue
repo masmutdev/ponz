@@ -2,7 +2,13 @@
   <div
     class="max-w-md mx-auto bg-blue-300 text-blue-800 dark:bg-blue-900 dark:text-white p-4 rounded-lg shadow space-y-2"
   >
-    <div class="text-sm font-semibold text-gray-800 dark:text-white">{{ vipText }}</div>
+    <div class="flex flex-row justify-between items-center">
+      <div class="text-sm font-semibold text-gray-800 dark:text-white">{{ vipText }}</div>
+      <div class="flex flex-row items-center text-sm font-semibold text-gray-800 dark:text-white">
+        Selanjutnya <IconArrowRight />
+      </div>
+      <div class="text-sm font-semibold text-gray-800 dark:text-white">{{ vipText2 }}</div>
+    </div>
 
     <div class="w-full bg-gray-200 dark:bg-blue-950 rounded-full h-4 overflow-hidden">
       <div
@@ -19,7 +25,7 @@
 <script setup>
 import { onMounted, computed } from 'vue'
 import { useUserActiveDownline } from '@/stores/userActiveDownline'
-
+import { IconArrowRight } from '@tabler/icons-vue'
 const store = useUserActiveDownline()
 
 onMounted(() => {
@@ -46,4 +52,5 @@ const progress = computed(() => {
 })
 
 const vipText = computed(() => `VIP ${store.vip}`)
+const vipText2 = computed(() => `VIP ${store.vip + 1}`)
 </script>

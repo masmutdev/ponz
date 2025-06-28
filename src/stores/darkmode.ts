@@ -3,7 +3,7 @@ export const initDarkMode = () => {
 
   if (savedMode === null) {
     // User pertama kali, ambil preferensi sistem
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const prefersDark = window.matchMedia('(prefers-color-scheme: light)').matches
     savedMode = prefersDark.toString()
     localStorage.setItem('darkMode', savedMode)
   }

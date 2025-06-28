@@ -26,7 +26,7 @@
       </button>
     </div>
 
-    <!-- Card Deposit -->
+    <!-- Deposit -->
     <div v-if="tab === 'deposit'" class="space-y-3">
       <div v-if="dataDeposit.length === 0" class="text-center text-gray-500">
         Belum ada Data Deposit.
@@ -35,33 +35,32 @@
       <div
         v-for="item in dataDeposit"
         :key="item.id"
-        class="p-4 rounded-lg shadow bg-white dark:bg-gray-800 text-sm space-y-2"
+        class="flex items-center justify-between bg-white dark:bg-gray-800 p-3 rounded-lg shadow"
       >
-        <div class="flex justify-between items-center">
-          <p class="font-semibold text-blue-800 dark:text-blue-400">Transaksi Deposit</p>
-          <p class="font-semibold text-blue-800 dark:text-blue-400">
-            {{ formatUSD(item.nominal) }}
-          </p>
+        <!-- Kiri -->
+        <div class="flex gap-2 items-start">
+          <img src="https://cdn-icons-png.flaticon.com/512/5610/5610944.png" class="w-6 h-6 mt-1" />
+          <div>
+            <p class="text-sm font-bold text-blue-800 dark:text-blue-400">Transaksi Deposit</p>
+            <p class="text-xs text-gray-500 dark:text-gray-400">
+              {{ item.created_at }}
+            </p>
+            <p class="text-xs text-gray-500 dark:text-gray-400">
+              {{ item.bank }} - {{ item.norek }}
+            </p>
+            <p class="text-xs text-gray-500 dark:text-gray-400">
+              Invoice: {{ item.invoice }} | Order ID: {{ item.order_id }}
+            </p>
+          </div>
         </div>
 
-        <p class="text-xs text-gray-600 dark:text-gray-300 text-center">
-          {{ item.created_at }}
-        </p>
-
-        <p class="text-gray-500 dark:text-gray-400 text-center">
-          Invoice: {{ item.invoice }} | Order ID: {{ item.order_id }}
-        </p>
-        <p class="text-gray-500 dark:text-gray-400 text-center">
-          {{ item.bank }} - {{ item.norek }}
-        </p>
-
-        <p class="text-gray-500 dark:text-gray-400 text-center">
-          {{ getKeterangan(statusLabel(item.status), false) }}
-        </p>
-
-        <div class="flex justify-center">
+        <!-- Kanan -->
+        <div class="text-end space-y-1">
+          <p class="text-green-600 font-bold text-sm">
+            {{ formatUSD(item.nominal) }}
+          </p>
           <span
-            class="px-3 py-1 rounded-full text-xs font-medium"
+            class="px-2 py-0.5 rounded-full text-xs font-medium block w-fit mx-auto"
             :class="getStatusClass(statusLabel(item.status))"
           >
             {{ statusLabel(item.status) }}
@@ -70,7 +69,7 @@
       </div>
     </div>
 
-    <!-- Card Withdraw -->
+    <!-- Withdraw -->
     <div v-else class="space-y-3">
       <div v-if="dataWithdraw.length === 0" class="text-center text-gray-500">
         Belum ada Data Withdraw.
@@ -80,32 +79,33 @@
         v-else
         v-for="item in dataWithdraw"
         :key="item.id"
-        class="p-4 rounded-lg shadow bg-white dark:bg-gray-800 text-sm space-y-2"
+        class="flex items-center justify-between bg-white dark:bg-gray-800 p-3 rounded-lg shadow"
       >
-        <div class="flex justify-between items-center">
-          <p class="font-semibold text-blue-800 dark:text-blue-400">Transaksi Withdraw</p>
-          <p class="font-semibold text-blue-800 dark:text-blue-400">
+        <!-- Kiri -->
+        <div class="flex gap-2 items-start">
+          <img src="https://cdn-icons-png.flaticon.com/512/595/595716.png" class="w-6 h-6 mt-1" />
+          <div>
+            <p class="text-sm font-bold text-blue-800 dark:text-blue-400">Transaksi Withdraw</p>
+            <p class="text-xs text-gray-500 dark:text-gray-400">
+              {{ item.created_at }}
+            </p>
+            <p
+              v-if="item.bank || item.pemilik || item.rekening"
+              class="text-xs text-gray-500 dark:text-gray-400"
+            >
+              {{ item.bank }}<span v-if="item.pemilik"> - {{ item.pemilik }}</span>
+              <span v-if="item.rekening"> ({{ item.rekening }})</span>
+            </p>
+          </div>
+        </div>
+
+        <!-- Kanan -->
+        <div class="text-end space-y-1">
+          <p class="text-green-600 font-bold text-sm">
             {{ formatUSD(item.nominal) }}
           </p>
-        </div>
-        <p class="text-xs text-gray-600 dark:text-gray-300 text-center">
-          {{ item.created_at }}
-        </p>
-        <p
-          v-if="item.bank || item.pemilik || item.rekening"
-          class="text-gray-500 dark:text-gray-400 text-center"
-        >
-          {{ item.bank }}
-          <span v-if="item.bank && item.pemilik"> - </span>
-          {{ item.pemilik }}
-          <span v-if="item.pemilik && item.rekening"> ({{ item.rekening }})</span>
-        </p>
-        <p class="text-gray-500 dark:text-gray-400 text-center">
-          {{ getKeterangan(statusLabel(item.status), tab === 'withdraw') }}
-        </p>
-        <div class="flex justify-center">
           <span
-            class="px-3 py-1 rounded-full text-xs font-medium"
+            class="px-2 py-0.5 rounded-full text-xs font-medium block w-fit mx-auto"
             :class="getStatusClass(statusLabel(item.status))"
           >
             {{ statusLabel(item.status) }}

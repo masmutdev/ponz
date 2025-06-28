@@ -5,6 +5,8 @@ export const userPengaturan = defineStore('userPengaturan', {
   state: () => ({
     loading: false,
     error: '',
+    namaUser: '-',
+    hpUser: '-',
     totalDeposit: 0,
     totalWithdraw: 0,
     totalBonus: 0,
@@ -19,6 +21,8 @@ export const userPengaturan = defineStore('userPengaturan', {
       try {
         const res = await api.get('/data-pengaturan')
         const data = res.data.data
+        this.namaUser = data.nama ?? '-'
+        this.hpUser = data.hp ?? '-'
         this.totalDeposit = data.total_deposit
         this.totalWithdraw = data.total_withdraw
         this.totalBonus = data.total_bonus

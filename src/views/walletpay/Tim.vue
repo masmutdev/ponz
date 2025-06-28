@@ -2,77 +2,79 @@
   <div class="max-w-4xl mx-auto mt-2 space-y-6">
     <h2 class="text-xl font-bold text-gray-800 dark:text-white text-center">Jaringan Tim Anda</h2>
 
-    <!-- 2 Kolom: Total Tim & Aktif -->
-    <div class="grid grid-cols-2 gap-4">
-      <div
-        v-for="item in summary.slice(0, 2)"
-        :key="item.label"
-        class="bg-blue-300 text-blue-800 dark:bg-blue-900 dark:text-white p-4 rounded-lg shadow text-center"
-      >
-        <p class="text-[10px] text-gray-600 dark:text-gray-300">{{ item.label }}</p>
-        <p class="text-xs font-semibold text-gray-800 dark:text-white">{{ item.value }}</p>
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow space-y-3 p-4">
+      <!-- Stats Bar -->
+      <div class="grid grid-cols-3 gap-2 text-center">
+        <div>
+          <p class="font-bold text-lg text-blue-900">{{ Number(totalTeam.value) }}</p>
+          <p class="text-xs text-gray-600">{{ totalTeam.label }}</p>
+          <p class="font-bold text-sm text-green-600">{{ totalStaking.value }}</p>
+          <p class="text-xs text-gray-600">{{ totalStaking.label }}</p>
+        </div>
+        <div>
+          <p class="font-bold text-lg text-blue-900">{{ Number(totalActive.value) }}</p>
+          <p class="text-xs text-gray-600">{{ totalActive.label }}</p>
+          <p class="font-bold text-sm text-green-600">{{ totalDeposit.value }}</p>
+          <p class="text-xs text-gray-600">{{ totalDeposit.label }}</p>
+        </div>
+        <div>
+          <p class="font-bold text-lg text-green-600">{{ totalDeposit.value }}</p>
+          <p class="text-xs text-gray-600">{{ totalDeposit.label }}</p>
+          <p class="font-bold text-sm text-green-600">{{ totalWithdraw.value }}</p>
+          <p class="text-xs text-gray-600">{{ totalWithdraw.label }}</p>
+        </div>
       </div>
-    </div>
 
-    <!-- 3 Kolom: Deposit, Penarikan, Profit Hari Ini -->
-    <div class="grid grid-cols-3 gap-4">
-      <div
-        v-for="item in summary.slice(2, 5)"
-        :key="item.label"
-        class="bg-blue-300 text-blue-800 dark:bg-blue-900 dark:text-white p-4 rounded-lg shadow text-center"
-      >
-        <p class="text-[10px] text-gray-600 dark:text-gray-300">{{ item.label }}</p>
-        <p class="text-xs font-semibold text-gray-800 dark:text-white">{{ item.value }}</p>
+      <!-- Progress -->
+      <div class="mt-2">
+        <p class="text-sm font-semibold text-blue-700">Pengguna Langsung</p>
+        <div class="relative w-full h-2 rounded-full bg-gray-200 mt-1">
+          <div
+            class="absolute top-0 left-0 h-full bg-blue-600 rounded-full"
+            :style="{ width: `${Math.max(1, (Number(totalActive.value) / 10) * 100)}%` }"
+          ></div>
+        </div>
+        <div class="flex justify-between text-xs mt-1 text-gray-600">
+          <span>Investasi Anggota Aktif</span>
+          <span
+            :class="Number(totalActive.value) >= 10 ? 'text-green-600' : 'text-red-600'"
+            class="font-semibold"
+          >
+            {{ Number(totalActive.value) }} Sampai 10
+          </span>
+        </div>
       </div>
-    </div>
 
-    <!-- 1 Kolom: Total Staking Tim -->
-    <div class="mt-2">
-      <div
-        class="bg-blue-300 text-blue-800 dark:bg-blue-900 dark:text-white p-4 rounded-lg shadow text-center"
-      >
-        <p class="text-[10px] text-gray-600 dark:text-gray-300">{{ summary[5].label }}</p>
-        <p class="text-xs font-semibold text-gray-800 dark:text-white">{{ summary[5].value }}</p>
+      <!-- Data Peringkat -->
+      <div class="bg-blue-900 text-white rounded-md mt-4 p-2 text-sm font-bold">
+        Data Peringkat anggota (1)
       </div>
-    </div>
 
-    <!-- Tabel Tim -->
-    <h3 class="text-md font-semibold text-gray-800 dark:text-white mb-3 text-center">
-      Daftar Tim Level Anda
-    </h3>
-    <div class="space-y-4">
-      <table
-        v-for="(member, index) in tim"
-        :key="index"
-        class="min-w-full w-full text-sm text-gray-800 dark:text-gray-200 bg-blue-100 dark:bg-blue-900 rounded-lg overflow-hidden shadow"
-      >
-        <tbody>
-          <tr class="border-b border-gray-300 dark:border-gray-600">
-            <td class="py-2 px-4" colspan="2"><strong>Nama:</strong> {{ member.nama }}</td>
-          </tr>
-          <tr class="border-b border-gray-300 dark:border-gray-600">
-            <td class="py-2 px-4" colspan="2"><strong>Email:</strong> {{ member.email }}</td>
-          </tr>
-          <tr class="border-b border-gray-300 dark:border-gray-600">
-            <td class="py-2 px-4" colspan="2"><strong>No HP:</strong> {{ member.hp }}</td>
-          </tr>
-          <tr class="border-b border-gray-300 dark:border-gray-600">
-            <td class="py-2 px-4" colspan="2">
-              <strong>Deposit:</strong> {{ formatUSD(member.deposit) }}
-            </td>
-          </tr>
-          <tr>
-            <td class="py-2 px-4" colspan="2">
-              <strong>Staking:</strong> {{ formatUSD(member.staking) }}
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="space-y-2 mt-2">
+        <div
+          v-for="(item, i) in tim"
+          :key="i"
+          class="flex items-center justify-between bg-white dark:bg-gray-100 border rounded px-3 py-2"
+        >
+          <div class="flex items-center gap-2">
+            <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" class="w-6 h-6" />
+            <div>
+              <p class="text-sm font-semibold">{{ item.hp }}</p>
+              <p class="text-xs text-gray-600">{{ formatTanggal(item.created_at) }}</p>
+            </div>
+          </div>
+          <p
+            :class="item.deposit > 0 ? 'text-green-600' : 'text-red-600'"
+            class="text-sm font-semibold"
+          >
+            {{ item.deposit > 0 ? 'Aktif' : 'Nonaktif' }}
+          </p>
+        </div>
+      </div>
     </div>
   </div>
 </template>
-
-<script setup>
+<script setup lang="ts">
 import { computed, onMounted } from 'vue'
 import { useUserDataDownline } from '@/stores/userDataDownline'
 
@@ -82,14 +84,26 @@ onMounted(() => {
   store.fetchDownline()
 })
 
-const formatUSD = (value) => {
+const formatUSD = (value: number | string) => {
   const usd = Number(value) / 16000
   return '$' + usd.toFixed(2)
 }
 
+const formatTanggal = (tanggal: string | undefined) => {
+  if (!tanggal) return '-'
+  const d = new Date(tanggal)
+  return d.toLocaleDateString('id-ID', {
+    day: '2-digit',
+    month: 'long',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+  })
+}
+
 const summary = computed(() => {
   const allLevels = Object.values(store.data || {})
-  const allUsers = allLevels.flatMap((l) => l.users || [])
+  const allUsers = allLevels.flatMap((l: any) => l.users || [])
 
   const totalTeam = allUsers.length
   const totalActive = allUsers.filter((u) => u.total_deposit > 0).length
@@ -109,17 +123,25 @@ const summary = computed(() => {
   ]
 })
 
+const totalTeam = computed(() => summary.value[0])
+const totalActive = computed(() => summary.value[1])
+const totalDeposit = computed(() => summary.value[2])
+const totalWithdraw = computed(() => summary.value[3])
+const profitHarian = computed(() => summary.value[4])
+const totalStaking = computed(() => summary.value[5])
+
 const tim = computed(() => {
   const allLevels = Object.entries(store.data || {})
 
-  return allLevels.flatMap(([levelKey, data]) =>
-    (data.users || []).map((user) => ({
+  return allLevels.flatMap(([levelKey, data]: any) =>
+    (data.users || []).map((user: any) => ({
       nama: user.nama,
       email: user.email,
       hp: user.hp,
       level: levelKey.replace('level_', ''),
       deposit: Number(user.total_deposit),
       staking: Number(user.total_staking),
+      created_at: user.created_at,
     })),
   )
 })

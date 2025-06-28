@@ -1,34 +1,56 @@
 <template>
   <div class="max-w-md mx-auto mt-2 mb-4 space-y-6">
-    <h2 class="text-xl font-bold text-gray-800 dark:text-white text-center">Pengaturan</h2>
+    <h2 class="text-xl font-bold text-gray-800 dark:text-white text-left">
+      Halo, {{ pengaturan.namaUser }}
+    </h2>
   </div>
 
-  <VIPBar class="my-5" />
   <div
-    class="bg-blue-300 text-blue-800 dark:bg-blue-900 dark:text-white p-4 rounded-md max-w-lg mx-auto space-y-3"
+    class="relative bg-gradient-to-b from-blue-700 to-blue-400 rounded-xl p-4 text-white flex justify-between items-start w-full max-w-md"
   >
-    <div class="flex justify-between text-sm border-b border-white/20 pb-1">
-      <span>Total deposit</span>
-      <span class="font-bold">{{ formatUSD(pengaturan.totalDeposit) }}</span>
+    <!-- Kiri: Logo dan info -->
+    <div class="flex flex-col">
+      <div class="flex items-center gap-2 mb-1">
+        <img src="@/assets/1/logo.png" alt="wallet" class="w-6 h-6" />
+        <span class="text-sm font-medium">Ewallet/Bank</span>
+      </div>
+      <p class="text-lg font-bold tracking-wide">{{ pengaturan.hpUser }}</p>
     </div>
 
-    <div class="flex justify-between text-sm border-b border-white/20 pb-1">
-      <span>Total withdraw</span>
-      <span class="font-bold">{{ formatUSD(pengaturan.totalWithdraw) }}</span>
-    </div>
-
-    <div class="flex justify-between text-sm border-b border-white/20 pb-1">
-      <span>Total profit</span>
-      <span class="font-bold">{{ formatUSD(pengaturan.totalBonus) }}</span>
-    </div>
-
-    <div class="flex justify-between text-sm">
-      <span>Total staking</span>
-      <span class="font-bold">{{ formatUSD(pengaturan.totalStaking) }}</span>
+    <!-- Kanan: Icon avatar -->
+    <div class="absolute -top-4 right-4 bg-yellow-400 p-1 rounded-full">
+      <img
+        src="https://cdn-icons-png.flaticon.com/512/4140/4140048.png"
+        alt="user"
+        class="w-15 h-15 object-contain"
+      />
     </div>
   </div>
 
-  <div class="max-w-md mx-auto mt-2 space-y-6">
+  <div class="relative mb-12">
+    <div class="grid grid-cols-3 gap-6 text-center mt-4">
+      <div>
+        <p class="font-bold text-black">{{ formatUSD(pengaturan.totalDeposit) }}</p>
+        <p class="text-xs text-gray-700">Total Deposit</p>
+      </div>
+      <div>
+        <p class="font-bold text-black">{{ formatUSD(pengaturan.totalWithdraw) }}</p>
+        <p class="text-xs text-gray-700">Total Profit</p>
+      </div>
+      <div>
+        <p class="font-bold text-black">{{ formatUSD(pengaturan.totalBonus) }}</p>
+        <p class="text-xs text-gray-700">Total Withdraw</p>
+      </div>
+      <div>
+        <p class="font-bold text-black">{{ formatUSD(pengaturan.totalBonus) }}</p>
+        <p class="text-xs text-gray-700">Total Withdraw</p>
+      </div>
+    </div>
+
+    <VIPBar class="my-5 absolute right-0 top-[40px] w-[300px] h-[50px]" />
+  </div>
+
+  <div class="max-w-md mx-auto mt-2 space-y-6 rounded-lg border p-2">
     <div class="space-y-1">
       <h3 class="text-sm font-semibold text-gray-600 dark:text-gray-300 px-2 my-4">Menu Saya</h3>
       <div
