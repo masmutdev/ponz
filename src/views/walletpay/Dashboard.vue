@@ -83,7 +83,7 @@
       <span class="text-sm font-semibold text-blue-900 dark:text-white">Transaksi</span>
     </RouterLink>
     <RouterLink
-      to="/crypto2"
+      to="/crypto"
       class="flex flex-col items-center p-2 w-20 h-20 rounded-full bg-gray-300 dark:bg-gray-800 shadow-md hover:shadow-lg transition"
     >
       <IconCoins class="w-7 h-7 mb-2 text-yellow-500" />
