@@ -42,8 +42,8 @@ const router = createRouter({
       meta: { requiresAuth: true },
     },
     {
-      path: '/crypto',
-      name: 'crypto',
+      path: '/staking',
+      name: 'staking',
       component: Crypto,
       meta: { requiresAuth: true },
     },
