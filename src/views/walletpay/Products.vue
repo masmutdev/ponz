@@ -1,7 +1,26 @@
 <template>
-  <div class="max-w-md mx-auto mt-2 space-y-6 px-4">
+  <div class="max-w-md mx-auto mt-2 space-y-4 px-4">
+    <!-- Tab Navigasi -->
+    <div class="flex justify-between bg-gray-200 rounded-lg overflow-hidden text-sm font-semibold">
+      <button
+        class="w-1/2 py-2"
+        :class="activeTab === 'pendek' ? 'bg-blue-500 text-white' : 'text-gray-700'"
+        @click="activeTab = 'pendek'"
+      >
+        Jangka Pendek
+      </button>
+      <button
+        class="w-1/2 py-2"
+        :class="activeTab === 'panjang' ? 'bg-blue-500 text-white' : 'text-gray-700'"
+        @click="activeTab = 'panjang'"
+      >
+        Jangka Panjang
+      </button>
+    </div>
+
+    <!-- Daftar Investasi -->
     <div
-      v-for="item in investments"
+      v-for="item in filteredInvestments"
       :key="item.kode_produk"
       class="dark:bg-gray-800 bg-white text-white rounded-xl overflow-hidden shadow p-3"
     >
@@ -80,37 +99,46 @@
 import { ref, computed, onMounted } from 'vue'
 import Alerts from '@/components/ui/walletpay/Alerts.vue'
 import { userSimpanPesanan2 } from '@/stores/userSimpanPesanan2'
+import { useCekPesanan2 } from '@/stores/CekPesanan2'
 import api from '@/lib/axios'
+
+// Gambar
 import nvidia from '@/assets/1/nvidia.jpeg'
 import amd from '@/assets/1/amd.jpeg'
 import docn from '@/assets/1/docn.jpeg'
 import intc from '@/assets/1/intc.jpeg'
-import { useCekPesanan2 } from '@/stores/CekPesanan2'
-const cekPesanan = useCekPesanan2()
+import wpx1 from '@/assets/1/wpx1.jpeg'
+import wpx2 from '@/assets/1/wpx2.jpeg'
+import wpx3 from '@/assets/1/wpx3.jpeg'
 
-// Mapping gambar
 const gambarMap = {
   'nvidia.jpeg': nvidia,
   'amd.jpeg': amd,
   'docn.jpeg': docn,
   'intc.jpeg': intc,
+  'wpx1.jpeg': wpx1,
+  'wpx2.jpeg': wpx2,
+  'wpx3.jpeg': wpx3,
 }
 
+// State
+const investments = ref([])
+const activeTab = ref('pendek')
 const pesananStore = userSimpanPesanan2()
+const cekPesanan = useCekPesanan2()
 
 const alertMessage = ref('')
 const alertType = ref('success')
 const showAlert = ref(false)
 
+// Alert handler
 const showInfo = (msg, type = 'success') => {
   alertMessage.value = msg
   alertType.value = type
   showAlert.value = true
 }
 
-// Data produk investasi dari backend
-const investments = ref([])
-
+// Data produk
 const fetchInvestments = () => {
   investments.value = [
     {
@@ -145,14 +173,43 @@ const fetchInvestments = () => {
       gambar_produk: 'intc.jpeg',
       profit_perhari: 2.2,
     },
+    {
+      kode_produk: 'WPX1',
+      nama_produk: 'WP Business X-1',
+      harga: 7,
+      durasi: 5,
+      gambar_produk: 'wpx1.jpeg',
+      profit_perhari: 0.4,
+    },
+    {
+      kode_produk: 'WPX2',
+      nama_produk: 'WP Business X-2',
+      harga: 15,
+      durasi: 8,
+      gambar_produk: 'wpx2.jpeg',
+      profit_perhari: 0.5,
+    },
+    {
+      kode_produk: 'WPX3',
+      nama_produk: 'WP Business X-3',
+      harga: 30,
+      durasi: 10,
+      gambar_produk: 'wpx3.jpeg',
+      profit_perhari: 0.5,
+    },
   ]
 }
 
-onMounted(() => {
-  fetchInvestments()
-  cekPesanan.fetchPesanan()
+// Filter investasi sesuai tab
+const filteredInvestments = computed(() => {
+  if (activeTab.value === 'pendek') {
+    return investments.value.filter((item) => ['WPX1', 'WPX2', 'WPX3'].includes(item.kode_produk))
+  } else {
+    return investments.value.filter((item) => !['WPX1', 'WPX2', 'WPX3'].includes(item.kode_produk))
+  }
 })
 
+// Staking action
 const confirmStaking = async (item) => {
   await pesananStore.simpanPesanan({ kode_produk: item.kode_produk })
 
@@ -162,4 +219,9 @@ const confirmStaking = async (item) => {
     showInfo(pesananStore.successMessage, 'success')
   }
 }
+
+onMounted(() => {
+  fetchInvestments()
+  cekPesanan.fetchPesanan()
+})
 </script>
