@@ -20,7 +20,7 @@
       >
         Akun Saya
       </router-link>
-      <DarkMode />
+
       <div class="border-t pt-3">
         <button
           class="text-sm font-bold text-red-500 dark:text-red-500 hover:underline"

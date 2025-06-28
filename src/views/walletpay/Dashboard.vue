@@ -44,6 +44,22 @@
     </div>
   </div>
 
+  <div class="border border-gray-300 rounded-md overflow-hidden flex items-center mt-4">
+    <img
+      src="https://cdn-icons-png.flaticon.com/128/9019/9019234.png"
+      alt="Speaker Icon"
+      class="h-6 w-6 ml-2"
+    />
+    <marquee
+      class="text-sm py-2 px-4 whitespace-nowrap"
+      behavior="scroll"
+      direction="left"
+      scrollamount="5"
+    >
+      Selamat Bergabung Bersama Wallet Pay Business
+    </marquee>
+  </div>
+
   <div class="grid grid-cols-4 gap-4 text-center mt-4">
     <RouterLink
       to="/deposit"
@@ -67,7 +83,7 @@
       <span class="text-sm font-semibold text-blue-900 dark:text-white">Transaksi</span>
     </RouterLink>
     <RouterLink
-      to="/staking"
+      to="/products"
       class="flex flex-col items-center p-2 w-20 h-20 rounded-full bg-gray-300 dark:bg-gray-800 shadow-md hover:shadow-lg transition"
     >
       <IconCoins class="w-7 h-7 mb-2 text-yellow-500" />
