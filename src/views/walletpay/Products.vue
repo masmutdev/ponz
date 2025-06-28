@@ -107,6 +107,8 @@ import nvidia from '@/assets/1/nvidia.jpeg'
 import amd from '@/assets/1/amd.jpeg'
 import docn from '@/assets/1/docn.jpeg'
 import intc from '@/assets/1/intc.jpeg'
+import xode1 from '@/assets/1/xode1.jpeg'
+import xode2 from '@/assets/1/xode2.jpeg'
 import wpx1 from '@/assets/1/wpx1.jpeg'
 import wpx2 from '@/assets/1/wpx2.jpeg'
 import wpx3 from '@/assets/1/wpx3.jpeg'
@@ -116,6 +118,8 @@ const gambarMap = {
   'amd.jpeg': amd,
   'docn.jpeg': docn,
   'intc.jpeg': intc,
+  'xode1.jpeg': xode1,
+  'xode2.jpeg': xode2,
   'wpx1.jpeg': wpx1,
   'wpx2.jpeg': wpx2,
   'wpx3.jpeg': wpx3,
@@ -174,12 +178,28 @@ const fetchInvestments = () => {
       profit_perhari: 2.2,
     },
     {
+      kode_produk: 'XODE1',
+      nama_produk: 'XODE 1',
+      harga: 70,
+      durasi: 60,
+      gambar_produk: 'xode1.jpeg',
+      profit_perhari: 2.4,
+    },
+    {
+      kode_produk: 'XODE2',
+      nama_produk: 'XODE 2',
+      harga: 120,
+      durasi: 60,
+      gambar_produk: 'xode2.jpeg',
+      profit_perhari: 5.2,
+    },
+    {
       kode_produk: 'WPX1',
       nama_produk: 'WP Business X-1',
       harga: 7,
       durasi: 5,
       gambar_produk: 'wpx1.jpeg',
-      profit_perhari: 0.4,
+      profit_perhari: 2.0,
     },
     {
       kode_produk: 'WPX2',
@@ -187,7 +207,7 @@ const fetchInvestments = () => {
       harga: 15,
       durasi: 8,
       gambar_produk: 'wpx2.jpeg',
-      profit_perhari: 0.5,
+      profit_perhari: 2.5,
     },
     {
       kode_produk: 'WPX3',
@@ -195,7 +215,7 @@ const fetchInvestments = () => {
       harga: 30,
       durasi: 10,
       gambar_produk: 'wpx3.jpeg',
-      profit_perhari: 0.5,
+      profit_perhari: 3.5,
     },
   ]
 }
