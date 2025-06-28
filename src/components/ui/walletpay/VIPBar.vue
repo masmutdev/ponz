@@ -25,7 +25,7 @@
     <div class="flex justify-center">
       <RouterLink
         to="/undangan"
-        class="mt-2 inline-block bg-white dark:bg-gray-700 text-blue-800 dark:text-white px-4 py-2 rounded-lg shadow hover:bg-blue-100 dark:hover:bg-gray-600 transition"
+        class="mt-2 inline-block bg-red-500 dark:bg-gray-700 text-white dark:text-white px-4 py-2 rounded-lg shadow hover:bg-red-600 dark:hover:bg-gray-600 transition w-full text-center"
       >
         Upgrade
       </RouterLink>
